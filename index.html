@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlexGig · Freelance Hub + Corporate Integration</title>
+    <!-- Modern fonts: Inter & Clash Display -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link href="https://api.fontshare.com/v2/css?f[]=clash-display@200,300,400,500,600,700&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1B2F4F; /* deep indigo - trust/professional */
+            --primary-light: #2A4070;
+            --secondary: #F97316; /* vibrant orange - energy/opportunity */
+            --secondary-dark: #E05D00;
+            --accent: #10B981; /* emerald - growth/money */
+            --black: #1A1E24;
+            --dark-gray: #2A2F36;
+            --medium-gray: #6B7280;
+            --light-gray: #F3F4F6;
+            --off-white: #F9FAFB;
+            --white: #FFFFFF;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --shadow: 0 20px 40px -15px rgba(0,0,0,0.2);
+            --shadow-lg: 0 30px 60px -15px rgba(0,0,0,0.25);
+            --shadow-sm: 0 4px 6px -2px rgba(0,0,0,0.05);
+            --border: rgba(0,0,0,0.08);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--white);
+            color: var(--black);
+            line-height: 1.5;
+        }
+
+        h1, h2, h3, h4, .display {
+            font-family: 'Clash Display', sans-serif;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 0.9rem 2rem;
+            background: var(--primary);
+            color: var(--white);
+            font-weight: 600;
+            text-decoration: none;
+            border: 2px solid var(--primary);
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 50px;
+        }
+
+        .btn:hover {
+            background: transparent;
+            color: var(--primary);
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+            border-color: var(--secondary);
+            color: var(--white);
+        }
+
+        .btn-secondary:hover {
+            background: transparent;
+            color: var(--secondary);
+        }
+
+        .btn-accent {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: var(--white);
+        }
+
+        .btn-accent:hover {
+            background: transparent;
+            color: var(--accent);
+        }
+
+        .btn-large {
+            padding: 1.2rem 3rem;
+            font-size: 1.2rem;
+        }
+
+        .btn-outline-light {
+            background: transparent;
+            border: 2px solid var(--white);
+            color: var(--white);
+        }
+
+        .btn-outline-light:hover {
+            background: var(--white);
+            color: var(--primary);
+        }
+
+        /* Sections */
+        .section {
+            padding: 6rem 0;
+        }
+
+        .section-title {
+            font-size: 3.2rem;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-subhead {
+            font-size: 1.2rem;
+            color: var(--medium-gray);
+            max-width: 700px;
+            margin-bottom: 3rem;
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            z-index: 100;
+            padding: 1.2rem 0;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Clash Display', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            text-decoration: none;
+            color: var(--primary);
+        }
+
+        .logo span {
+            color: var(--secondary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--black);
+            font-weight: 500;
+        }
+
+        /* Hero */
+        .hero {
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: var(--white);
+            padding-top: 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80');
+            background-size: cover;
+            opacity: 0.1;
+            z-index: 0;
+        }
+
+        .hero .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: var(--secondary);
+            color: var(--white);
+            padding: 0.3rem 1rem;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-title .accent-text {
+            color: var(--secondary);
+        }
+
+        .hero-tagline {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .hero-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .hero-feature-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(5px);
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
+            font-weight: 500;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 3rem;
+            margin: 2.5rem 0;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            font-family: 'Clash Display', sans-serif;
+            color: var(--secondary);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .hero-image {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            height: 500px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.7;
+        }
+
+        .image-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(27,47,79,0.95), transparent);
+            padding: 2rem;
+        }
+
+        .payment-badge {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Quick Tasks */
+        .quick-tasks {
+            background: var(--white);
+        }
+
+        .tasks-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .task-card {
+            background: var(--white);
+            border: 1px solid var(--light-gray);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .task-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow);
+            border-color: var(--secondary);
+        }
+
+        .task-icon {
+            font-size: 3rem;
+            color: var(--secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .task-title {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .task-pay {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--accent);
+            margin: 1rem 0;
+        }
+
+        .task-pay small {
+            font-size: 1rem;
+            font-weight: 400;
+            color: var(--medium-gray);
+        }
+
+        .task-time {
+            color: var(--medium-gray);
+            font-size: 0.9rem;
+        }
+
+        /* For Companies */
+        .for-companies {
+            background: var(--light-gray);
+        }
+
+        .companies-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .benefits-list {
+            list-style: none;
+            margin: 2rem 0;
+        }
+
+        .benefits-list li {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        .benefits-list i {
+            color: var(--success);
+            font-size: 1.3rem;
+        }
+
+        .roi-calculator {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+        }
+
+        .roi-number {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--secondary);
+        }
+
+        /* Integration Model */
+        .integration {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .integration .section-title,
+        .integration .section-subhead {
+            color: var(--white);
+        }
+
+        .integration .section-subhead {
+            color: rgba(255,255,255,0.7);
+        }
+
+        .integration-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .integration-card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            padding: 2.5rem;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.2);
+            text-align: center;
+        }
+
+        .integration-icon {
+            font-size: 3rem;
+            color: var(--secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .integration-title {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .integration-desc {
+            color: rgba(255,255,255,0.7);
+        }
+
+        /* How It Works */
+        .how-it-works {
+            background: var(--white);
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+            position: relative;
+        }
+
+        .step {
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: var(--secondary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 0 auto 1.5rem;
+        }
+
+        .step-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .step-desc {
+            color: var(--medium-gray);
+        }
+
+        /* Fast Payment */
+        .payment {
+            background: var(--accent);
+            color: var(--white);
+        }
+
+        .payment .section-title,
+        .payment .section-subhead {
+            color: var(--white);
+        }
+
+        .payment .section-subhead {
+            color: rgba(255,255,255,0.8);
+        }
+
+        .payment-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .payment-card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.2);
+            text-align: center;
+        }
+
+        .payment-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .payment-title {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .payment-desc {
+            opacity: 0.8;
+        }
+
+        /* Testimonials */
+        .testimonials {
+            background: var(--light-gray);
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .testimonial-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .testimonial-text {
+            font-size: 1.1rem;
+            font-style: italic;
+            margin-bottom: 1.5rem;
+            color: var(--dark-gray);
+        }
+
+        .testimonial-author {
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .testimonial-role {
+            color: var(--medium-gray);
+            font-size: 0.9rem;
+        }
+
+        .testimonial-earnings {
+            margin-top: 1rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        /* CTA */
+        .cta {
+            background: var(--secondary);
+            color: var(--white);
+            text-align: center;
+        }
+
+        .cta h2 {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--black);
+            color: var(--white);
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-logo {
+            font-family: 'Clash Display', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--white);
+        }
+
+        .footer-logo span {
+            color: var(--secondary);
+        }
+
+        .footer-links a {
+            display: block;
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links h4 {
+            margin-bottom: 1.5rem;
+            color: var(--white);
+        }
+
+        .footer-copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.5);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .hero-grid,
+            .companies-grid,
+            .tasks-grid,
+            .integration-grid,
+            .steps-grid,
+            .payment-grid,
+            .testimonial-grid,
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-grid,
+            .companies-grid,
+            .tasks-grid,
+            .integration-grid,
+            .steps-grid,
+            .payment-grid,
+            .testimonial-grid,
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero-title {
+                font-size: 2.8rem;
+            }
+            
+            .section-title {
+                font-size: 2.5rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="#" class="logo">FLEX<span>GIG</span></a>
+            <div class="nav-links">
+                <a href="#">Find Work</a>
+                <a href="#">Post a Task</a>
+                <a href="#">For Companies</a>
+                <a href="#">How It Works</a>
+                <a href="#" class="btn">SIGN UP</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="container hero-grid">
+            <div>
+                <div class="hero-badge">KENYA'S FASTEST GROWING FREELANCE HUB</div>
+                <h1 class="hero-title">
+                    Turn your free time into<br>
+                    <span class="accent-text">cash. Today.</span>
+                </h1>
+                <p class="hero-tagline">Quick tasks. Fast payments. No long-term commitment. For individuals and companies.</p>
+                
+                <div class="hero-features">
+                    <span class="hero-feature-item"><i class="fa-solid fa-bolt"></i> Instant pay</span>
+                    <span class="hero-feature-item"><i class="fa-regular fa-clock"></i> 15-min tasks</span>
+                    <span class="hero-feature-item"><i class="fa-solid fa-phone"></i> M-Pesa payout</span>
+                    <span class="hero-feature-item"><i class="fa-solid fa-building"></i> 200+ companies</span>
+                </div>
+                
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">15,000+</div>
+                        <div class="stat-label">Freelancers</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">KSh 4.2M</div>
+                        <div class="stat-label">Paid This Month</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">2,500+</div>
+                        <div class="stat-label">Tasks Today</div>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 2rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <a href="#" class="btn btn-large btn-secondary">START EARNING</a>
+                    <a href="#" class="btn btn-large btn-outline-light">POST A TASK</a>
+                </div>
+                
+                <p style="margin-top: 1.5rem; font-size: 0.9rem; opacity: 0.7;">✓ No fees to join ✓ Instant withdrawals ✓ 24/7 support</p>
+            </div>
+            <div class="hero-image">
+                <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Freelancer working">
+                <div class="image-overlay">
+                    <div class="payment-badge"><i class="fa-solid fa-bolt"></i> KSh 500 earned today</div>
+                    <div class="payment-badge" style="background: var(--secondary);">⚡ 3 tasks completed</div>
+                    <p style="margin-top: 1rem;">"I made KSh 2,300 this morning just running errands." — Mary, Nairobi</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Tasks -->
+    <section class="section quick-tasks">
+        <div class="container">
+            <h2 class="section-title">Quick tasks. Real pay.</h2>
+            <p class="section-subhead">Thousands of tasks posted daily. Work when you want. Get paid instantly.</p>
+            
+            <div class="tasks-grid">
+                <div class="task-card">
+                    <div class="task-icon"><i class="fa-solid fa-camera"></i></div>
+                    <h3 class="task-title">Product Photography</h3>
+                    <div class="task-pay">KSh 350 <small>/hour</small></div>
+                    <div class="task-time">20-40 mins per task</div>
+                </div>
+                <div class="task-card">
+                    <div class="task-icon"><i class="fa-solid fa-truck"></i></div>
+                    <h3 class="task-title">Local Delivery</h3>
+                    <div class="task-pay">KSh 200 <small>/drop</small></div>
+                    <div class="task-time">Within 5km radius</div>
+                </div>
+                <div class="task-card">
+                    <div class="task-icon"><i class="fa-solid fa-pen"></i></div>
+                    <h3 class="task-title">Data Entry</h3>
+                    <div class="task-pay">KSh 250 <small>/hour</small></div>
+                    <div class="task-time">Remote work</div>
+                </div>
+                <div class="task-card">
+                    <div class="task-icon"><i class="fa-solid fa-people-line"></i></div>
+                    <h3 class="task-title">Queue Standing</h3>
+                    <div class="task-pay">KSh 300 <small>/hour</small></div>
+                    <div class="task-time">Govt offices, hospitals</div>
+                </div>
+                <div class="task-card">
+                    <div class="task-icon"><i class="fa-solid fa-mobile"></i></div>
+                    <h3 class="task-title">Social Media Engagement</h3>
+                    <div class="task-pay">KSh 150 <small>/task</small></div>
+                    <div class="task-time">5-10 mins</div>
+                </div>
+                <div class="task-card">
+                    <div class="task-icon"><i class="fa-solid fa-clipboard-list"></i></div>
+                    <h3 class="task-title">Mystery Shopping</h3>
+                    <div class="task-pay">KSh 500 <small>/visit</small></div>
+                    <div class="task-time">30 mins + report</div>
+                </div>
+                <div class="task-card">
+                    <div class="task-icon"><i class="fa-solid fa-broom"></i></div>
+                    <h3 class="task-title">Home Organizing</h3>
+                    <div class="task-pay">KSh 400 <small>/hour</small></div>
+                    <div class="task-time">Flexible hours</div>
+                </div>
+                <div class="task-card">
+                    <div class="task-icon"><i class="fa-solid fa-dog"></i></div>
+                    <h3 class="task-title">Pet Sitting</h3>
+                    <div class="task-pay">KSh 300 <small>/hour</small></div>
+                    <div class="task-time">Half-day or full-day</div>
+                </div>
+            </div>
+            
+            <p style="text-align: center; margin-top: 3rem;"><a href="#" style="color: var(--secondary); font-weight: 600;">View all 50+ task categories →</a></p>
+        </div>
+    </section>
+
+    <!-- For Companies -->
+    <section class="section for-companies">
+        <div class="container companies-grid">
+            <div>
+                <h2 class="section-title">For companies: Freelance isn't risk. It's opportunity.</h2>
+                <p style="color: var(--medium-gray); margin-bottom: 2rem;">We help you see what freelancers can do for your business—before you commit to full-time hires.</p>
+                
+                <ul class="benefits-list">
+                    <li><i class="fa-solid fa-circle-check"></i> <strong>Test before you hire</strong> – Try freelancers on short tasks first</li>
+                    <li><i class="fa-solid fa-circle-check"></i> <strong>No overhead</strong> – No benefits, no office space, no long-term commitment</li>
+                    <li><i class="fa-solid fa-circle-check"></i> <strong>Scale up or down</strong> – Get help when you need it, not when you're stuck</li>
+                    <li><i class="fa-solid fa-circle-check"></i> <strong>Access vetted talent</strong> – All freelancers rated and reviewed</li>
+                    <li><i class="fa-solid fa-circle-check"></i> <strong>We integrate into your workflow</strong> – Our team works inside your company to identify freelance opportunities</li>
+                </ul>
+                
+                <div class="roi-calculator">
+                    <h3>Typical company savings</h3>
+                    <div class="roi-number">47%</div>
+                    <p>lower labor costs using FlexGig freelancers vs. full-time employees</p>
+                </div>
+            </div>
+            <div style="background: var(--white); padding: 2rem; border-radius: 16px; box-shadow: var(--shadow);">
+                <h3 style="margin-bottom: 1.5rem;">See the difference</h3>
+                <table style="width: 100%; border-collapse: collapse;">
+                    <tr style="border-bottom: 1px solid var(--light-gray);">
+                        <td style="padding: 1rem 0;">Full-time employee</td>
+                        <td style="padding: 1rem 0; font-weight: 700;">KSh 45,000/mo + benefits</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid var(--light-gray);">
+                        <td style="padding: 1rem 0;">FlexGig freelancer</td>
+                        <td style="padding: 1rem 0; font-weight: 700; color: var(--accent);">KSh 15,000/mo average</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 1rem 0;">Annual savings</td>
+                        <td style="padding: 1rem 0; font-weight: 800; color: var(--secondary);">KSh 360,000+</td>
+                    </tr>
+                </table>
+                <a href="#" class="btn btn-secondary" style="width: 100%; margin-top: 2rem;">TALK TO OUR INTEGRATION TEAM</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Integration Model -->
+    <section class="section integration">
+        <div class="container">
+            <h2 class="section-title">We don't just list jobs. We integrate into your company.</h2>
+            <p class="section-subhead">Our team works inside your organization to identify tasks perfect for freelancers.</p>
+            
+            <div class="integration-grid">
+                <div class="integration-card">
+                    <div class="integration-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+                    <h3 class="integration-title">Audit</h3>
+                    <p class="integration-desc">We analyze your workflows to find tasks that can be done remotely or on-demand.</p>
+                </div>
+                <div class="integration-card">
+                    <div class="integration-icon"><i class="fa-solid fa-gears"></i></div>
+                    <h3 class="integration-title">Structure</h3>
+                    <p class="integration-desc">We break work into clear, manageable tasks with set pay rates.</p>
+                </div>
+                <div class="integration-card">
+                    <div class="integration-icon"><i class="fa-solid fa-rocket"></i></div>
+                    <h3 class="integration-title">Launch</h3>
+                    <p class="integration-desc">We post tasks, match freelancers, and manage payments—you just approve.</p>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 3rem;">
+                <a href="#" class="btn btn-large btn-secondary">SCHEDULE AN INTEGRATION AUDIT</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="section how-it-works">
+        <div class="container">
+            <h2 class="section-title">How FlexGig works</h2>
+            <p class="section-subhead">For freelancers and companies—simple, fast, transparent.</p>
+            
+            <div class="steps-grid">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3 class="step-title">Sign up free</h3>
+                    <p class="step-desc">Create your profile in under 2 minutes. No fees, no hidden costs.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3 class="step-title">Browse tasks</h3>
+                    <p class="step-desc">See hundreds of tasks posted by companies and individuals near you.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3 class="step-title">Work & earn</h3>
+                    <p class="step-desc">Complete tasks, get rated, withdraw earnings instantly to M-Pesa.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fast Payment -->
+    <section class="section payment">
+        <div class="container">
+            <h2 class="section-title">Get paid. Instantly.</h2>
+            <p class="section-subhead">No waiting for end of month. No bank delays. Money in your pocket when the task is done.</p>
+            
+            <div class="payment-grid">
+                <div class="payment-card">
+                    <div class="payment-icon"><i class="fa-solid fa-mobile-retro"></i></div>
+                    <h3 class="payment-title">M-Pesa Withdrawals</h3>
+                    <p class="payment-desc">Instant to your phone. 24/7, even weekends.</p>
+                </div>
+                <div class="payment-card">
+                    <div class="payment-icon"><i class="fa-regular fa-clock"></i></div>
+                    <h3 class="payment-title">Same-Day Payment</h3>
+                    <p class="payment-desc">Task approved at 2pm? Paid by 3pm.</p>
+                </div>
+                <div class="payment-card">
+                    <div class="payment-icon"><i class="fa-solid fa-shield"></i></div>
+                    <h3 class="payment-title">Escrow Protection</h3>
+                    <p class="payment-desc">Funds held securely until work is approved.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="section testimonials">
+        <div class="container">
+            <h2 class="section-title">Real people. Real earnings.</h2>
+            <p class="section-subhead">Thousands of Kenyans are earning daily on FlexGig.</p>
+            
+            <div class="testimonial-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-text">
+                        "I'm a university student. FlexGig pays my rent. I do delivery tasks between classes and make KSh 500-800 daily."
+                    </div>
+                    <div class="testimonial-author">— Kevin O.</div>
+                    <div class="testimonial-role">Student, Nairobi</div>
+                    <div class="testimonial-earnings">KSh 18,500 earned this month</div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-text">
+                        "Our company saved KSh 400,000 last year by using FlexGig freelancers for data entry and customer support overflow."
+                    </div>
+                    <div class="testimonial-author">— Wanjiku M.</div>
+                    <div class="testimonial-role">Operations Manager, Retail Chain</div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-text">
+                        "I'm a stay-at-home mom. I do social media tasks when the kids are asleep. It's flexible and pays instantly."
+                    </div>
+                    <div class="testimonial-author">— Aisha H.</div>
+                    <div class="testimonial-role">Mombasa</div>
+                    <div class="testimonial-earnings">KSh 12,200 earned this month</div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-text">
+                        "FlexGig helped us test freelancers before hiring. We found our best full-time employee through a 2-week task."
+                    </div>
+                    <div class="testimonial-author">— James K.</div>
+                    <div class="testimonial-role">Tech Startup Founder</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="section cta">
+        <div class="container">
+            <h2>Ready to start earning?</h2>
+            <p style="max-width: 600px; margin: 0 auto; opacity: 0.9;">Join 15,000+ Kenyans who wake up and find work on FlexGig.</p>
+            <div class="cta-buttons">
+                <a href="#" class="btn btn-large" style="background: var(--primary); border-color: var(--primary);">I WANT TO EARN</a>
+                <a href="#" class="btn btn-large" style="background: white; color: var(--primary); border-color: white;">I NEED FREELANCERS</a>
+            </div>
+            <p style="margin-top: 2rem; opacity: 0.8;">✓ Free to join ✓ 2,500+ tasks available now ✓ Instant M-Pesa payout</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <div class="footer-logo">FLEX<span>GIG</span></div>
+                    <p style="color: rgba(255,255,255,0.7);">Kenya's freelance hub. Quick tasks. Fast pay.<br>Part of the TalantaE ecosystem.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>For Freelancers</h4>
+                    <a href="#">Browse Tasks</a>
+                    <a href="#">How It Works</a>
+                    <a href="#">Success Stories</a>
+                </div>
+                <div class="footer-links">
+                    <h4>For Companies</h4>
+                    <a href="#">Post a Task</a>
+                    <a href="#">Integration Program</a>
+                    <a href="#">Case Studies</a>
+                </div>
+                <div class="footer-links">
+                    <h4>Contact</h4>
+                    <a href="#">hello@flexgig.ke</a>
+                    <a href="#">+254 700 123 456</a>
+                    <a href="#">@flexgig_kenya</a>
+                </div>
+            </div>
+            <div class="footer-copyright">
+                © 2026 FlexGig. Instant payments. Real opportunities.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.querySelectorAll('.btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                if (btn.textContent.includes('EARN') || btn.textContent.includes('START EARNING')) {
+                    e.preventDefault();
+                    alert('✅ Welcome to FlexGig! We\'ve sent an SMS with your registration link. Start browsing tasks immediately.');
+                } else if (btn.textContent.includes('POST') || btn.textContent.includes('NEED FREELANCERS')) {
+                    e.preventDefault();
+                    alert('👔 Thank you for your interest! Our team will contact you within 24 hours to help you post your first task.');
+                } else if (btn.textContent.includes('INTEGRATION') || btn.textContent.includes('SCHEDULE')) {
+                    e.preventDefault();
+                    alert('📊 Great! Our integration specialists will reach out to schedule a free workflow audit for your company.');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
