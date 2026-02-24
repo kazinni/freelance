@@ -54,6 +54,21 @@ function initializeLoginPage() {
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
             console.log("Login successful:", userCredential.user.uid);
             
+            // Check if user profile exists
+            const userRef = ref(database, `users/${userCredential.user.uid}`);
+            const snapshot = await get(userRef);
+            
+            if (!snapshot.exists()) {
+                console.log("User profile doesn't exist, creating one...");
+                // Create user profile if it doesn't exist
+                await createUserProfile(userCredential.user, {
+                    full_name: userCredential.user.email.split('@')[0], // Default name from email
+                    email_address: userCredential.user.email,
+                    phone_number: '',
+                    city_location: ''
+                });
+            }
+            
             showNotification('Login successful! Redirecting...', 'success');
             
             // Redirect to dashboard
@@ -75,6 +90,9 @@ function initializeLoginPage() {
                     break;
                 case 'auth/invalid-email':
                     errorMessage += "Invalid email address.";
+                    break;
+                case 'auth/too-many-requests':
+                    errorMessage += "Too many failed attempts. Try again later.";
                     break;
                 default:
                     errorMessage += error.message;
@@ -117,44 +135,14 @@ function initializeLoginPage() {
             console.log("User created in Auth:", userCredential.user.uid);
             
             // Create user profile in Realtime Database
-            const userRef = ref(database, `users/${userCredential.user.uid}`);
+            await createUserProfile(userCredential.user, {
+                full_name: name,
+                email_address: email,
+                phone_number: phone,
+                city_location: city
+            });
             
-            const userData = {
-                personal: {
-                    full_name: name,
-                    email_address: email,
-                    phone_number: phone,
-                    city_location: city,
-                    joined_timestamp: Date.now()
-                },
-                professional: {
-                    main_category: '',
-                    skill_set: '',
-                    experience_level: '',
-                    rate_per_hour: 0,
-                    hours_per_week: ''
-                },
-                files: {
-                    cv_file_url: '',
-                    id_file_url: '',
-                    certificates_urls: '',
-                    verification_status: false
-                },
-                settings: {
-                    preferred_project_type: 'project_based',
-                    work_mode: 'remote'
-                },
-                account_state: 'pending_verification',
-                system_data: {
-                    signup_source: 'web_app',
-                    visitor_ip: '',
-                    browser_info: navigator.userAgent
-                }
-            };
-            
-            await set(userRef, userData);
-            console.log("User profile created in database");
-            
+            console.log("User profile created successfully");
             showNotification('Account created successfully! Redirecting...', 'success');
             
             // Redirect to dashboard
@@ -175,7 +163,7 @@ function initializeLoginPage() {
                     errorMessage += "Invalid email address.";
                     break;
                 case 'auth/weak-password':
-                    errorMessage += "Password is too weak.";
+                    errorMessage += "Password is too weak. Use at least 6 characters.";
                     break;
                 default:
                     errorMessage += error.message;
@@ -203,6 +191,91 @@ function initializeLoginPage() {
             }
         });
     }
+}
+
+// Function to create user profile in database
+async function createUserProfile(user, additionalData) {
+    const userRef = ref(database, `users/${user.uid}`);
+    
+    // Complete user profile matching your JSON structure
+    const userData = {
+        personal: {
+            full_name: additionalData.full_name || '',
+            email_address: additionalData.email_address || user.email,
+            phone_number: additionalData.phone_number || '',
+            city_location: additionalData.city_location || '',
+            joined_timestamp: Date.now()
+        },
+        professional: {
+            main_category: '',
+            skill_set: '',
+            experience_level: '',
+            rate_per_hour: 0,
+            hours_per_week: ''
+        },
+        files: {
+            cv_file_url: '',
+            id_file_url: '',
+            certificates_urls: '',
+            verification_status: false
+        },
+        settings: {
+            preferred_project_type: 'project_based',
+            work_mode: 'remote'
+        },
+        account_state: 'pending_verification',
+        system_data: {
+            signup_source: 'web_app',
+            visitor_ip: '',
+            browser_info: navigator.userAgent
+        }
+    };
+    
+    await set(userRef, userData);
+    
+    // Also initialize user_tasks node
+    const userTasksRef = ref(database, `user_tasks/${user.uid}`);
+    const userTasksData = {
+        assigned_tasks: {},
+        completed_tasks: {},
+        stats: {
+            tasks_in_progress: 0,
+            tasks_available: 0,
+            tasks_completed: 0,
+            total_earned: 0,
+            average_rating: 0
+        }
+    };
+    
+    await set(userTasksRef, userTasksData);
+    
+    // Update site statistics
+    try {
+        const statsRef = ref(database, 'site_statistics');
+        const statsSnapshot = await get(statsRef);
+        
+        if (statsSnapshot.exists()) {
+            const stats = statsSnapshot.val();
+            await set(statsRef, {
+                ...stats,
+                total_members: (stats.total_members || 0) + 1,
+                awaiting_review: (stats.awaiting_review || 0) + 1,
+                last_update_time: Date.now()
+            });
+        } else {
+            await set(statsRef, {
+                total_members: 1,
+                awaiting_review: 1,
+                approved_members: 0,
+                last_update_time: Date.now()
+            });
+        }
+    } catch (error) {
+        console.error("Error updating site statistics:", error);
+        // Non-critical error, don't throw
+    }
+    
+    return userData;
 }
 
 // Notification function
@@ -235,15 +308,12 @@ function showNotification(message, type = 'info') {
     if (type === 'success') {
         notification.style.backgroundColor = '#4caf50';
         notification.style.color = 'white';
-        notification.style.borderLeft = '4px solid #2e7d32';
     } else if (type === 'error') {
         notification.style.backgroundColor = '#f44336';
         notification.style.color = 'white';
-        notification.style.borderLeft = '4px solid #c62828';
     } else {
         notification.style.backgroundColor = '#2196f3';
         notification.style.color = 'white';
-        notification.style.borderLeft = '4px solid #0b5e9e';
     }
     
     // Auto hide after 3 seconds
