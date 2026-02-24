@@ -1,0 +1,2798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlexKazi - Admin Panel</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Dark mode variables */
+        body.dark-mode {
+            --bg-primary: #0a1929;
+            --bg-secondary: #1e2a3a;
+            --bg-card: #2d3a4f;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b8c4;
+            --border-color: #3a4a5f;
+            --accent: #1976d2;
+            --accent-hover: #1565c0;
+            --success: #4caf50;
+            --warning: #ff9800;
+            --danger: #f44336;
+            --info: #2196f3;
+        }
+
+        /* Light mode variables */
+        body.light-mode {
+            --bg-primary: #f5f5f5;
+            --bg-secondary: #ffffff;
+            --bg-card: #ffffff;
+            --text-primary: #333333;
+            --text-secondary: #666666;
+            --border-color: #e0e0e0;
+            --accent: #1976d2;
+            --accent-hover: #1565c0;
+            --success: #4caf50;
+            --warning: #ff9800;
+            --danger: #f44336;
+            --info: #2196f3;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* App Container */
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background-color: var(--bg-secondary);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            transition: all 0.3s;
+            z-index: 100;
+        }
+
+        .sidebar-header {
+            padding: 25px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .logo {
+            font-size: 1.8em;
+            font-weight: 700;
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        .admin-badge {
+            background-color: var(--accent);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.7em;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+
+        .user-info {
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .user-avatar i {
+            font-size: 3em;
+            color: var(--text-secondary);
+        }
+
+        .user-details h3 {
+            font-size: 1em;
+            margin-bottom: 5px;
+            word-break: break-word;
+        }
+
+        .user-details p {
+            font-size: 0.85em;
+            color: var(--text-secondary);
+            word-break: break-word;
+        }
+
+        .nav-menu {
+            flex: 1;
+            padding: 20px 0;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 25px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.3s;
+            gap: 15px;
+        }
+
+        .nav-item i {
+            width: 20px;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            background-color: var(--bg-primary);
+            color: var(--accent);
+            border-left: 3px solid var(--accent);
+        }
+
+        .sidebar-footer {
+            padding: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .theme-toggle-sidebar {
+            width: 100%;
+            padding: 10px;
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s;
+        }
+
+        .theme-toggle-sidebar:hover {
+            background-color: var(--accent);
+            color: white;
+        }
+
+        .theme-toggle-sidebar .fa-sun {
+            display: none;
+        }
+
+        body.dark-mode .theme-toggle-sidebar .fa-moon {
+            display: none;
+        }
+
+        body.dark-mode .theme-toggle-sidebar .fa-sun {
+            display: inline-block;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 30px;
+        }
+
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .notification-badge {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .notification-badge i {
+            font-size: 1.3em;
+            color: var(--text-secondary);
+        }
+
+        .badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: var(--danger);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 0.7em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .refresh-btn {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.3em;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .refresh-btn:hover {
+            color: var(--accent);
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background-color: var(--bg-card);
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border: 1px solid var(--border-color);
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            background-color: var(--bg-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .stat-icon i {
+            font-size: 1.5em;
+            color: var(--accent);
+        }
+
+        .stat-details h3 {
+            font-size: 1.5em;
+            margin-bottom: 5px;
+        }
+
+        .stat-details p {
+            color: var(--text-secondary);
+            font-size: 0.9em;
+        }
+
+        /* Admin Tabs */
+        .admin-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
+            flex-wrap: wrap;
+        }
+
+        .admin-tab {
+            padding: 10px 20px;
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1em;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .admin-tab:hover {
+            color: var(--accent);
+            background-color: var(--bg-card);
+        }
+
+        .admin-tab.active {
+            color: var(--accent);
+            font-weight: 600;
+            background-color: var(--bg-card);
+        }
+
+        .admin-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--accent);
+        }
+
+        .tab-count {
+            background-color: var(--bg-card);
+            color: var(--text-secondary);
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            margin-left: 8px;
+        }
+
+        .admin-tab.active .tab-count {
+            background-color: var(--accent);
+            color: white;
+        }
+
+        /* Action Bar */
+        .action-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 8px 15px;
+            flex: 1;
+            max-width: 300px;
+        }
+
+        .search-box i {
+            color: var(--text-secondary);
+            margin-right: 10px;
+        }
+
+        .search-box input {
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            width: 100%;
+            outline: none;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.95em;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background-color: var(--accent);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-hover);
+        }
+
+        .btn-success {
+            background-color: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            filter: brightness(90%);
+        }
+
+        .btn-warning {
+            background-color: var(--warning);
+            color: white;
+        }
+
+        .btn-warning:hover {
+            filter: brightness(90%);
+        }
+
+        .btn-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            filter: brightness(90%);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--bg-card);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Tables */
+        .table-container {
+            background-color: var(--bg-card);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            overflow-x: auto;
+            margin-bottom: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            text-align: left;
+            padding: 15px;
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            font-weight: 600;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+
+        tr:hover td {
+            background-color: var(--bg-primary);
+        }
+
+        .user-cell {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-avatar-small {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .status-pending {
+            background-color: rgba(255, 152, 0, 0.2);
+            color: var(--warning);
+        }
+
+        .status-approved {
+            background-color: rgba(76, 175, 80, 0.2);
+            color: var(--success);
+        }
+
+        .status-rejected {
+            background-color: rgba(244, 67, 54, 0.2);
+            color: var(--danger);
+        }
+
+        .status-in_progress {
+            background-color: rgba(33, 150, 243, 0.2);
+            color: var(--info);
+        }
+
+        .status-submitted {
+            background-color: rgba(255, 152, 0, 0.2);
+            color: var(--warning);
+        }
+
+        .status-completed {
+            background-color: rgba(76, 175, 80, 0.2);
+            color: var(--success);
+        }
+
+        .priority-high {
+            color: var(--danger);
+            font-weight: 600;
+        }
+
+        .priority-medium {
+            color: var(--warning);
+            font-weight: 600;
+        }
+
+        .priority-low {
+            color: var(--success);
+            font-weight: 600;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .icon-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            background: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .icon-btn:hover {
+            background-color: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+
+        .icon-btn.delete:hover {
+            background-color: var(--danger);
+            border-color: var(--danger);
+        }
+
+        /* Cards Grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .admin-card {
+            background-color: var(--bg-card);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        .admin-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .admin-card-title {
+            font-size: 1.1em;
+            font-weight: 600;
+        }
+
+        .admin-card-content {
+            margin-bottom: 15px;
+        }
+
+        .admin-card-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            background-color: var(--bg-secondary);
+            margin: 50px auto;
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 600px;
+            position: relative;
+            max-height: 80vh;
+            overflow-y: auto;
+            border: 1px solid var(--border-color);
+        }
+
+        .modal-lg {
+            max-width: 800px;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .modal-header h2 {
+            color: var(--text-primary);
+        }
+
+        .close {
+            font-size: 1.5em;
+            cursor: pointer;
+            color: var(--text-secondary);
+            transition: color 0.3s;
+        }
+
+        .close:hover {
+            color: var(--text-primary);
+        }
+
+        /* Forms */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group.full-width {
+            grid-column: span 2;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-size: 1em;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* Review Panel */
+        .review-panel {
+            background-color: var(--bg-card);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .review-meta {
+            display: flex;
+            gap: 20px;
+            color: var(--text-secondary);
+            font-size: 0.9em;
+        }
+
+        .deliverables-list {
+            margin: 15px 0;
+        }
+
+        .deliverable-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            background-color: var(--bg-primary);
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .deliverable-item a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .deliverable-item a:hover {
+            text-decoration: underline;
+        }
+
+        .rating-input {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .star-rating {
+            display: flex;
+            gap: 5px;
+        }
+
+        .star-rating i {
+            font-size: 1.5em;
+            color: var(--warning);
+            cursor: pointer;
+        }
+
+        .star-rating i.far {
+            color: var(--text-secondary);
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-secondary);
+        }
+
+        .empty-state i {
+            font-size: 4em;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .empty-state h3 {
+            color: var(--text-primary);
+            margin-bottom: 10px;
+        }
+
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-secondary);
+        }
+
+        .loading i {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 8px;
+            z-index: 9999;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            display: none;
+            animation: slideIn 0.3s;
+            max-width: 400px;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .notification.success {
+            background-color: var(--success);
+            color: white;
+        }
+
+        .notification.error {
+            background-color: var(--danger);
+            color: white;
+        }
+
+        .notification.info {
+            background-color: var(--info);
+            color: white;
+        }
+
+        .notification.warning {
+            background-color: var(--warning);
+            color: white;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-group.full-width {
+                grid-column: span 1;
+            }
+            
+            .modal-content {
+                margin: 20px;
+                width: auto;
+            }
+        }
+    </style>
+</head>
+<body class="dark-mode">
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h2 class="logo">Flex<span>Kazi</span> <span class="admin-badge">ADMIN</span></h2>
+            </div>
+            
+            <div class="user-info">
+                <div class="user-avatar">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+                <div class="user-details">
+                    <h3 id="userName">Loading...</h3>
+                    <p id="userEmail"></p>
+                </div>
+            </div>
+
+            <div class="nav-menu">
+                <a href="dashboard.html" class="nav-item">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="admin.html" class="nav-item active">
+                    <i class="fas fa-cog"></i>
+                    <span>Admin Panel</span>
+                </a>
+                <a href="#" class="nav-item" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+
+            <div class="sidebar-footer">
+                <button id="themeToggle" class="theme-toggle-sidebar">
+                    <i class="fas fa-moon"></i>
+                    <i class="fas fa-sun"></i>
+                    <span>Toggle Theme</span>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="content-header">
+                <h1>Admin Panel</h1>
+                <div class="header-actions">
+                    <button class="refresh-btn" id="refreshBtn">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                    <div class="notification-badge" id="notificationBell">
+                        <i class="fas fa-bell"></i>
+                        <span class="badge" id="notificationCount">0</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Stats Cards -->
+            <div class="stats-grid" id="statsGrid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-details">
+                        <h3 id="totalUsers">0</h3>
+                        <p>Total Users</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-details">
+                        <h3 id="pendingUsers">0</h3>
+                        <p>Pending Verification</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-tasks"></i>
+                    </div>
+                    <div class="stat-details">
+                        <h3 id="totalTasks">0</h3>
+                        <p>Total Tasks</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-hourglass-half"></i>
+                    </div>
+                    <div class="stat-details">
+                        <h3 id="pendingReviews">0</h3>
+                        <p>Pending Review</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-details">
+                        <h3 id="completedTasks">0</h3>
+                        <p>Completed Tasks</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-money-bill-wave"></i>
+                    </div>
+                    <div class="stat-details">
+                        <h3 id="totalPayments">KES 0</h3>
+                        <p>Total Paid</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Admin Tabs -->
+            <div class="admin-tabs">
+                <button class="admin-tab active" data-tab="dashboard">
+                    <i class="fas fa-chart-line"></i> Dashboard
+                </button>
+                <button class="admin-tab" data-tab="tasks">
+                    <i class="fas fa-tasks"></i> Tasks
+                    <span class="tab-count" id="tasksTabCount">0</span>
+                </button>
+                <button class="admin-tab" data-tab="users">
+                    <i class="fas fa-users"></i> Users
+                    <span class="tab-count" id="usersTabCount">0</span>
+                </button>
+                <button class="admin-tab" data-tab="reviews">
+                    <i class="fas fa-star"></i> Reviews
+                    <span class="tab-count" id="reviewsTabCount">0</span>
+                </button>
+                <button class="admin-tab" data-tab="categories">
+                    <i class="fas fa-folder"></i> Categories
+                </button>
+                <button class="admin-tab" data-tab="settings">
+                    <i class="fas fa-sliders-h"></i> Settings
+                </button>
+            </div>
+
+            <!-- Dynamic Content Area -->
+            <div id="adminContent"></div>
+        </main>
+    </div>
+
+    <!-- Create Task Modal -->
+    <div id="createTaskModal" class="modal">
+        <div class="modal-content modal-lg">
+            <div class="modal-header">
+                <h2>Create New Task</h2>
+                <span class="close" onclick="closeModal('createTaskModal')">&times;</span>
+            </div>
+            <form id="createTaskForm">
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label>Task Title</label>
+                        <input type="text" id="taskTitle" required placeholder="e.g., Social Media Banner Design">
+                    </div>
+                    <div class="form-group full-width">
+                        <label>Description</label>
+                        <textarea id="taskDescription" required placeholder="Detailed description of the task..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Category</label>
+                        <select id="taskCategory" required>
+                            <option value="">Select Category</option>
+                            <option value="advert">Advert Generation</option>
+                            <option value="social">Social Media Management</option>
+                            <option value="data">Data Entry</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Subcategory</label>
+                        <input type="text" id="taskSubcategory" placeholder="e.g., graphic_design">
+                    </div>
+                    <div class="form-group">
+                        <label>Priority</label>
+                        <select id="taskPriority" required>
+                            <option value="high">High</option>
+                            <option value="medium" selected>Medium</option>
+                            <option value="low">Low</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Estimated Hours</label>
+                        <input type="number" id="taskHours" required min="1" value="5">
+                    </div>
+                    <div class="form-group">
+                        <label>Budget (KES)</label>
+                        <input type="number" id="taskBudget" required min="0" value="1000">
+                    </div>
+                    <div class="form-group">
+                        <label>Deadline</label>
+                        <input type="datetime-local" id="taskDeadline" required>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-outline" onclick="closeModal('createTaskModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Create Task</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Task Modal -->
+    <div id="editTaskModal" class="modal">
+        <div class="modal-content modal-lg">
+            <div class="modal-header">
+                <h2>Edit Task</h2>
+                <span class="close" onclick="closeModal('editTaskModal')">&times;</span>
+            </div>
+            <form id="editTaskForm">
+                <input type="hidden" id="editTaskId">
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label>Task Title</label>
+                        <input type="text" id="editTaskTitle" required>
+                    </div>
+                    <div class="form-group full-width">
+                        <label>Description</label>
+                        <textarea id="editTaskDescription" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Category</label>
+                        <select id="editTaskCategory" required>
+                            <option value="advert">Advert Generation</option>
+                            <option value="social">Social Media Management</option>
+                            <option value="data">Data Entry</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Subcategory</label>
+                        <input type="text" id="editTaskSubcategory">
+                    </div>
+                    <div class="form-group">
+                        <label>Priority</label>
+                        <select id="editTaskPriority" required>
+                            <option value="high">High</option>
+                            <option value="medium">Medium</option>
+                            <option value="low">Low</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Estimated Hours</label>
+                        <input type="number" id="editTaskHours" required min="1">
+                    </div>
+                    <div class="form-group">
+                        <label>Budget (KES)</label>
+                        <input type="number" id="editTaskBudget" required min="0">
+                    </div>
+                    <div class="form-group">
+                        <label>Deadline</label>
+                        <input type="datetime-local" id="editTaskDeadline" required>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-outline" onclick="closeModal('editTaskModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Update Task</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Assign Task Modal -->
+    <div id="assignTaskModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Assign Task</h2>
+                <span class="close" onclick="closeModal('assignTaskModal')">&times;</span>
+            </div>
+            <form id="assignTaskForm">
+                <input type="hidden" id="assignTaskId">
+                <div class="form-group">
+                    <label>Task</label>
+                    <input type="text" id="assignTaskTitle" readonly class="readonly-input">
+                </div>
+                <div class="form-group">
+                    <label>Select Freelancer</label>
+                    <select id="assignFreelancer" required>
+                        <option value="">Choose a freelancer...</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="priorityMatch" checked>
+                        Priority Match (Match with freelancer's primary category)
+                    </label>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-outline" onclick="closeModal('assignTaskModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Assign Task</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Review Task Modal -->
+    <div id="reviewTaskModal" class="modal">
+        <div class="modal-content modal-lg">
+            <div class="modal-header">
+                <h2>Review Task Submission</h2>
+                <span class="close" onclick="closeModal('reviewTaskModal')">&times;</span>
+            </div>
+            <div id="reviewContent"></div>
+        </div>
+    </div>
+
+    <!-- Verify User Modal -->
+    <div id="verifyUserModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Verify User</h2>
+                <span class="close" onclick="closeModal('verifyUserModal')">&times;</span>
+            </div>
+            <div id="verifyUserContent"></div>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div id="notification" class="notification"></div>
+
+    <script type="module">
+        import { auth, database } from './js/firebase-config.js';
+        import { signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { ref, onValue, get, child, update, set, push, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+        // Global variables
+        let currentUser = null;
+        let userData = null;
+        let allUsers = {};
+        let allTasks = {};
+        let allCategories = {};
+        let currentTab = 'dashboard';
+
+        // Initialize admin panel
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log("Admin panel loaded");
+            
+            // Check authentication
+            onAuthStateChanged(auth, async (user) => {
+                if (user) {
+                    console.log("User authenticated:", user.uid);
+                    currentUser = user;
+                    
+                    // Check if user is admin
+                    await checkAdminStatus();
+                } else {
+                    console.log("No user authenticated, redirecting to login");
+                    window.location.href = 'index.html';
+                }
+            });
+
+            // Setup event listeners
+            setupEventListeners();
+        });
+
+        async function checkAdminStatus() {
+            try {
+                // Check if user is in administrators list
+                const adminRef = ref(database, `administrators/${currentUser.uid}`);
+                const snapshot = await get(adminRef);
+                
+                if (snapshot.exists() && snapshot.val() === true) {
+                    console.log("Admin access granted");
+                    await loadUserData();
+                    loadAllData();
+                    setupRealtimeListeners();
+                } else {
+                    console.log("Not an admin, redirecting to dashboard");
+                    showNotification('Admin access required', 'error');
+                    window.location.href = 'dashboard.html';
+                }
+            } catch (error) {
+                console.error("Error checking admin status:", error);
+                window.location.href = 'dashboard.html';
+            }
+        }
+
+        function setupEventListeners() {
+            // Logout button
+            document.getElementById('logoutBtn').addEventListener('click', async (e) => {
+                e.preventDefault();
+                try {
+                    await signOut(auth);
+                    showNotification('Logged out successfully', 'success');
+                    window.location.href = 'index.html';
+                } catch (error) {
+                    showNotification('Error logging out: ' + error.message, 'error');
+                }
+            });
+
+            // Theme toggle
+            document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+
+            // Refresh button
+            document.getElementById('refreshBtn').addEventListener('click', () => {
+                loadAllData();
+                showNotification('Data refreshed!', 'info');
+            });
+
+            // Tab switching
+            document.querySelectorAll('.admin-tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    currentTab = tab.dataset.tab;
+                    loadTabContent();
+                });
+            });
+
+            // Modal close on outside click
+            window.addEventListener('click', (event) => {
+                const modals = ['createTaskModal', 'editTaskModal', 'assignTaskModal', 'reviewTaskModal', 'verifyUserModal'];
+                modals.forEach(modalId => {
+                    const modal = document.getElementById(modalId);
+                    if (event.target === modal) {
+                        modal.style.display = 'none';
+                    }
+                });
+            });
+        }
+
+        function toggleTheme() {
+            const body = document.body;
+            if (body.classList.contains('dark-mode')) {
+                body.classList.remove('dark-mode');
+                body.classList.add('light-mode');
+                localStorage.setItem('theme', 'light-mode');
+            } else {
+                body.classList.remove('light-mode');
+                body.classList.add('dark-mode');
+                localStorage.setItem('theme', 'dark-mode');
+            }
+        }
+
+        // Apply saved theme
+        const savedTheme = localStorage.getItem('theme') || 'dark-mode';
+        document.body.className = savedTheme;
+
+        async function loadUserData() {
+            try {
+                const userRef = ref(database, `users/${currentUser.uid}`);
+                const snapshot = await get(userRef);
+                
+                if (snapshot.exists()) {
+                    userData = snapshot.val();
+                    document.getElementById('userName').textContent = 
+                        userData?.personal?.full_name || 'Admin';
+                    document.getElementById('userEmail').textContent = 
+                        userData?.personal?.email_address || currentUser.email || '';
+                } else {
+                    document.getElementById('userName').textContent = 'Admin';
+                    document.getElementById('userEmail').textContent = currentUser.email || '';
+                }
+            } catch (error) {
+                console.error("Error loading user data:", error);
+            }
+        }
+
+        function setupRealtimeListeners() {
+            // Listen for tasks updates
+            const tasksRef = ref(database, 'tasks');
+            onValue(tasksRef, (snapshot) => {
+                if (snapshot.exists()) {
+                    allTasks = snapshot.val();
+                    updateStats();
+                    if (currentTab === 'tasks') loadTasksTab();
+                }
+            });
+
+            // Listen for users updates
+            const usersRef = ref(database, 'users');
+            onValue(usersRef, (snapshot) => {
+                if (snapshot.exists()) {
+                    allUsers = snapshot.val();
+                    updateStats();
+                    updateTabCounts();
+                    if (currentTab === 'users') loadUsersTab();
+                }
+            });
+
+            // Listen for categories updates
+            const categoriesRef = ref(database, 'work_categories');
+            onValue(categoriesRef, (snapshot) => {
+                if (snapshot.exists()) {
+                    allCategories = snapshot.val();
+                    if (currentTab === 'categories') loadCategoriesTab();
+                }
+            });
+        }
+
+        async function loadAllData() {
+            await Promise.all([
+                loadTasks(),
+                loadUsers(),
+                loadCategories(),
+                loadStatistics()
+            ]);
+            loadTabContent();
+        }
+
+        async function loadTasks() {
+            try {
+                const tasksRef = ref(database, 'tasks');
+                const snapshot = await get(tasksRef);
+                allTasks = snapshot.exists() ? snapshot.val() : {};
+            } catch (error) {
+                console.error("Error loading tasks:", error);
+            }
+        }
+
+        async function loadUsers() {
+            try {
+                const usersRef = ref(database, 'users');
+                const snapshot = await get(usersRef);
+                allUsers = snapshot.exists() ? snapshot.val() : {};
+            } catch (error) {
+                console.error("Error loading users:", error);
+            }
+        }
+
+        async function loadCategories() {
+            try {
+                const categoriesRef = ref(database, 'work_categories');
+                const snapshot = await get(categoriesRef);
+                allCategories = snapshot.exists() ? snapshot.val() : {};
+            } catch (error) {
+                console.error("Error loading categories:", error);
+            }
+        }
+
+        async function loadStatistics() {
+            try {
+                const statsRef = ref(database, 'site_statistics');
+                const snapshot = await get(statsRef);
+                if (snapshot.exists()) {
+                    const stats = snapshot.val();
+                    document.getElementById('totalUsers').textContent = stats.total_members || 0;
+                    document.getElementById('pendingUsers').textContent = stats.awaiting_review || 0;
+                }
+            } catch (error) {
+                console.error("Error loading statistics:", error);
+            }
+        }
+
+        function updateStats() {
+            // Calculate stats from data
+            const totalUsers = Object.keys(allUsers || {}).length;
+            const pendingUsers = Object.values(allUsers || {}).filter(u => u.account_state === 'pending_verification').length;
+            const totalTasks = Object.keys(allTasks || {}).length;
+            const pendingReviews = Object.values(allTasks || {}).filter(t => t.status?.current === 'submitted').length;
+            const completedTasks = Object.values(allTasks || {}).filter(t => t.status?.current === 'completed').length;
+            
+            // Calculate total payments (sum of budgets for completed tasks)
+            const totalPayments = Object.values(allTasks || {}).reduce((sum, task) => {
+                if (task.status?.current === 'completed') {
+                    return sum + (task.task_details?.budget || 0);
+                }
+                return sum;
+            }, 0);
+
+            document.getElementById('totalUsers').textContent = totalUsers;
+            document.getElementById('pendingUsers').textContent = pendingUsers;
+            document.getElementById('totalTasks').textContent = totalTasks;
+            document.getElementById('pendingReviews').textContent = pendingReviews;
+            document.getElementById('completedTasks').textContent = completedTasks;
+            document.getElementById('totalPayments').textContent = `KES ${totalPayments}`;
+        }
+
+        function updateTabCounts() {
+            const pendingReviews = Object.values(allTasks || {}).filter(t => t.status?.current === 'submitted').length;
+            document.getElementById('tasksTabCount').textContent = Object.keys(allTasks || {}).length;
+            document.getElementById('usersTabCount').textContent = Object.keys(allUsers || {}).length;
+            document.getElementById('reviewsTabCount').textContent = pendingReviews;
+        }
+
+        function loadTabContent() {
+            const content = document.getElementById('adminContent');
+            
+            switch(currentTab) {
+                case 'dashboard':
+                    content.innerHTML = renderDashboard();
+                    break;
+                case 'tasks':
+                    loadTasksTab();
+                    break;
+                case 'users':
+                    loadUsersTab();
+                    break;
+                case 'reviews':
+                    loadReviewsTab();
+                    break;
+                case 'categories':
+                    loadCategoriesTab();
+                    break;
+                case 'settings':
+                    content.innerHTML = renderSettings();
+                    break;
+                default:
+                    content.innerHTML = renderDashboard();
+            }
+        }
+
+        function renderDashboard() {
+            return `
+                <div class="cards-grid">
+                    <div class="admin-card">
+                        <div class="admin-card-header">
+                            <span class="admin-card-title">Quick Actions</span>
+                        </div>
+                        <div class="admin-card-content">
+                            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                                <button class="btn btn-primary" onclick="openCreateTaskModal()">
+                                    <i class="fas fa-plus"></i> New Task
+                                </button>
+                                <button class="btn btn-success" onclick="openAssignTaskModal()">
+                                    <i class="fas fa-user-plus"></i> Assign Task
+                                </button>
+                                <button class="btn btn-warning" onclick="document.querySelector('[data-tab=\"reviews\"]').click()">
+                                    <i class="fas fa-star"></i> Review Submissions
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="admin-card">
+                        <div class="admin-card-header">
+                            <span class="admin-card-title">System Status</span>
+                        </div>
+                        <div class="admin-card-content">
+                            <p><i class="fas fa-circle" style="color: var(--success);"></i> Database: Online</p>
+                            <p><i class="fas fa-circle" style="color: var(--success);"></i> Authentication: Active</p>
+                            <p><i class="fas fa-circle" style="color: var(--success);"></i> Storage: Connected</p>
+                        </div>
+                    </div>
+
+                    <div class="admin-card">
+                        <div class="admin-card-header">
+                            <span class="admin-card-title">Recent Activity</span>
+                        </div>
+                        <div class="admin-card-content">
+                            <p>Last login: ${new Date().toLocaleString()}</p>
+                            <p>Active sessions: 1</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <h3 style="padding: 15px; margin: 0;">Recent Tasks</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Task</th>
+                                <th>Category</th>
+                                <th>Status</th>
+                                <th>Assigned To</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${renderRecentTasks()}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+        }
+
+        function renderRecentTasks() {
+            const recentTasks = Object.entries(allTasks || {})
+                .sort((a, b) => (b[1].task_details?.created_at || 0) - (a[1].task_details?.created_at || 0))
+                .slice(0, 5);
+
+            if (recentTasks.length === 0) {
+                return '<tr><td colspan="5" class="empty-state">No tasks found</td></tr>';
+            }
+
+            return recentTasks.map(([taskId, task]) => {
+                const details = task.task_details || {};
+                const status = task.status?.current || 'unknown';
+                const assignedTo = task.assignment?.assigned_to || 'Unassigned';
+                const userName = allUsers[assignedTo]?.personal?.full_name || assignedTo;
+
+                return `
+                    <tr>
+                        <td>${details.title || 'Untitled'}</td>
+                        <td>${getCategoryName(details.category)}</td>
+                        <td><span class="status-badge status-${status}">${status.replace('_', ' ')}</span></td>
+                        <td>${assignedTo !== 'Unassigned' ? userName : 'Unassigned'}</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="icon-btn" onclick="viewTask('${taskId}')" title="View">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="icon-btn" onclick="editTask('${taskId}')" title="Edit">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                ${assignedTo === 'Unassigned' ? `
+                                    <button class="icon-btn" onclick="openAssignTaskModal('${taskId}')" title="Assign">
+                                        <i class="fas fa-user-plus"></i>
+                                    </button>
+                                ` : ''}
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        async function loadTasksTab() {
+            const content = document.getElementById('adminContent');
+            
+            content.innerHTML = `
+                <div class="action-bar">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="taskSearch" placeholder="Search tasks...">
+                    </div>
+                    <div>
+                        <button class="btn btn-primary" onclick="openCreateTaskModal()">
+                            <i class="fas fa-plus"></i> Create Task
+                        </button>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <table id="tasksTable">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Category</th>
+                                <th>Priority</th>
+                                <th>Budget</th>
+                                <th>Status</th>
+                                <th>Assigned To</th>
+                                <th>Deadline</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${renderTasksTable()}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+
+            // Add search functionality
+            document.getElementById('taskSearch').addEventListener('input', (e) => {
+                const searchTerm = e.target.value.toLowerCase();
+                filterTasksTable(searchTerm);
+            });
+        }
+
+        function renderTasksTable() {
+            if (!allTasks || Object.keys(allTasks).length === 0) {
+                return '<tr><td colspan="8" class="empty-state">No tasks found</td></tr>';
+            }
+
+            return Object.entries(allTasks).map(([taskId, task]) => {
+                const details = task.task_details || {};
+                const status = task.status?.current || 'unknown';
+                const assignedTo = task.assignment?.assigned_to || 'Unassigned';
+                const userName = allUsers[assignedTo]?.personal?.full_name || assignedTo;
+                const deadline = details.deadline ? new Date(details.deadline).toLocaleDateString() : 'N/A';
+                const isUrgent = details.deadline && (details.deadline - Date.now()) < 86400000;
+
+                return `
+                    <tr data-task-id="${taskId}">
+                        <td>${details.title || 'Untitled'}</td>
+                        <td>${getCategoryName(details.category)}</td>
+                        <td><span class="priority-${details.priority || 'medium'}">${(details.priority || 'medium').toUpperCase()}</span></td>
+                        <td>KES ${details.budget || 0}</td>
+                        <td><span class="status-badge status-${status}">${status.replace('_', ' ')}</span></td>
+                        <td>${assignedTo !== 'Unassigned' ? userName : 'Unassigned'}</td>
+                        <td style="color: ${isUrgent ? 'var(--danger)' : 'inherit'}">${deadline}</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="icon-btn" onclick="viewTask('${taskId}')" title="View">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="icon-btn" onclick="editTask('${taskId}')" title="Edit">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                ${assignedTo === 'Unassigned' ? `
+                                    <button class="icon-btn" onclick="openAssignTaskModal('${taskId}')" title="Assign">
+                                        <i class="fas fa-user-plus"></i>
+                                    </button>
+                                ` : ''}
+                                ${status === 'submitted' ? `
+                                    <button class="icon-btn" onclick="openReviewModal('${taskId}')" title="Review">
+                                        <i class="fas fa-star"></i>
+                                    </button>
+                                ` : ''}
+                                <button class="icon-btn delete" onclick="deleteTask('${taskId}')" title="Delete">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function filterTasksTable(searchTerm) {
+            const rows = document.querySelectorAll('#tasksTable tbody tr');
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+
+        async function loadUsersTab() {
+            const content = document.getElementById('adminContent');
+            
+            content.innerHTML = `
+                <div class="action-bar">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="userSearch" placeholder="Search users...">
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <table id="usersTable">
+                        <thead>
+                            <tr>
+                                <th>User</th>
+                                <th>Contact</th>
+                                <th>Location</th>
+                                <th>Category</th>
+                                <th>Experience</th>
+                                <th>Status</th>
+                                <th>Joined</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${renderUsersTable()}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+
+            // Add search functionality
+            document.getElementById('userSearch').addEventListener('input', (e) => {
+                const searchTerm = e.target.value.toLowerCase();
+                filterUsersTable(searchTerm);
+            });
+        }
+
+        function renderUsersTable() {
+            if (!allUsers || Object.keys(allUsers).length === 0) {
+                return '<tr><td colspan="8" class="empty-state">No users found</td></tr>';
+            }
+
+            return Object.entries(allUsers).map(([userId, user]) => {
+                const personal = user.personal || {};
+                const professional = user.professional || {};
+                const joined = personal.joined_timestamp ? new Date(personal.joined_timestamp).toLocaleDateString() : 'N/A';
+                
+                // Get initials for avatar
+                const initials = (personal.full_name || 'U').split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+
+                return `
+                    <tr data-user-id="${userId}">
+                        <td>
+                            <div class="user-cell">
+                                <div class="user-avatar-small">${initials}</div>
+                                <div>
+                                    <div>${personal.full_name || 'Unknown'}</div>
+                                    <small style="color: var(--text-secondary);">ID: ${userId.slice(0, 8)}...</small>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div>${personal.email_address || 'N/A'}</div>
+                            <small>${personal.phone_number || 'No phone'}</small>
+                        </td>
+                        <td>${personal.city_location || 'N/A'}</td>
+                        <td>${getCategoryName(professional.main_category) || 'Not set'}</td>
+                        <td>${professional.experience_level?.replace(/_/g, ' ') || 'N/A'}</td>
+                        <td>
+                            <span class="status-badge status-${user.account_state || 'pending'}">
+                                ${(user.account_state || 'pending').replace('_', ' ')}
+                            </span>
+                        </td>
+                        <td>${joined}</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="icon-btn" onclick="viewUser('${userId}')" title="View">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                ${user.account_state === 'pending_verification' ? `
+                                    <button class="icon-btn" onclick="verifyUser('${userId}')" title="Verify">
+                                        <i class="fas fa-check-circle" style="color: var(--success);"></i>
+                                    </button>
+                                ` : ''}
+                                <button class="icon-btn" onclick="suspendUser('${userId}')" title="Suspend">
+                                    <i class="fas fa-ban" style="color: var(--warning);"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function filterUsersTable(searchTerm) {
+            const rows = document.querySelectorAll('#usersTable tbody tr');
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+
+        async function loadReviewsTab() {
+            const content = document.getElementById('adminContent');
+            
+            // Get all submitted tasks
+            const submittedTasks = Object.entries(allTasks || {})
+                .filter(([_, task]) => task.status?.current === 'submitted');
+
+            if (submittedTasks.length === 0) {
+                content.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-star"></i>
+                        <h3>No Pending Reviews</h3>
+                        <p>All caught up! No tasks waiting for review.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            content.innerHTML = `
+                <div class="cards-grid">
+                    ${submittedTasks.map(([taskId, task]) => renderReviewCard(taskId, task)).join('')}
+                </div>
+            `;
+        }
+
+        function renderReviewCard(taskId, task) {
+            const details = task.task_details || {};
+            const assignment = task.assignment || {};
+            const deliverables = task.deliverables || {};
+            const user = allUsers[assignment.assigned_to]?.personal || {};
+            
+            return `
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <span class="admin-card-title">${details.title || 'Untitled'}</span>
+                        <span class="priority-badge priority-${details.priority || 'medium'}">${(details.priority || 'medium').toUpperCase()}</span>
+                    </div>
+                    <div class="admin-card-content">
+                        <p><strong>Freelancer:</strong> ${user.full_name || 'Unknown'}</p>
+                        <p><strong>Submitted:</strong> ${task.status?.submitted_at ? new Date(task.status.submitted_at).toLocaleString() : 'N/A'}</p>
+                        <p><strong>Budget:</strong> KES ${details.budget || 0}</p>
+                        ${deliverables.submission_notes ? `
+                            <p><strong>Notes:</strong> ${deliverables.submission_notes}</p>
+                        ` : ''}
+                        ${deliverables.files && deliverables.files.length > 0 ? `
+                            <div class="deliverables-list">
+                                <strong>Files:</strong>
+                                ${deliverables.files.map(file => `
+                                    <div class="deliverable-item">
+                                        <i class="fas fa-file"></i>
+                                        <a href="${file}" target="_blank">View File</a>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        ` : ''}
+                    </div>
+                    <div class="admin-card-footer">
+                        <button class="btn btn-outline" onclick="viewTask('${taskId}')">View Details</button>
+                        <button class="btn btn-primary" onclick="openReviewModal('${taskId}')">Review</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        async function loadCategoriesTab() {
+            const content = document.getElementById('adminContent');
+            
+            content.innerHTML = `
+                <div class="action-bar">
+                    <div>
+                        <button class="btn btn-primary" onclick="openCreateCategoryModal()">
+                            <i class="fas fa-plus"></i> Add Category
+                        </button>
+                    </div>
+                </div>
+
+                <div class="cards-grid">
+                    ${renderCategories()}
+                </div>
+            `;
+        }
+
+        function renderCategories() {
+            if (!allCategories || Object.keys(allCategories).length === 0) {
+                return '<div class="empty-state">No categories found</div>';
+            }
+
+            return Object.entries(allCategories).map(([categoryId, category]) => {
+                const memberCount = category.member_count || 0;
+                const freelancerList = category.freelancer_list || {};
+                
+                return `
+                    <div class="admin-card">
+                        <div class="admin-card-header">
+                            <span class="admin-card-title">${category.category_name || categoryId}</span>
+                        </div>
+                        <div class="admin-card-content">
+                            <p><strong>Category ID:</strong> ${categoryId}</p>
+                            <p><strong>Members:</strong> ${memberCount}</p>
+                            <p><strong>Active Freelancers:</strong> ${Object.keys(freelancerList).length}</p>
+                        </div>
+                        <div class="admin-card-footer">
+                            <button class="btn btn-outline" onclick="editCategory('${categoryId}')">Edit</button>
+                            <button class="btn btn-danger" onclick="deleteCategory('${categoryId}')">Delete</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderSettings() {
+            return `
+                <div class="cards-grid">
+                    <div class="admin-card">
+                        <div class="admin-card-header">
+                            <span class="admin-card-title">Auto Assignment Rules</span>
+                        </div>
+                        <div class="admin-card-content">
+                            <form id="autoAssignmentForm">
+                                <div class="form-group">
+                                    <label>
+                                        <input type="checkbox" id="enablePriorityMatching" checked>
+                                        Enable Priority Matching
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label>Max Tasks Per User</label>
+                                    <input type="number" id="maxTasksPerUser" value="5" min="1" max="20">
+                                </div>
+                                <div class="form-group">
+                                    <label>
+                                        <input type="checkbox" id="considerAvailability" checked>
+                                        Consider Availability
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label>
+                                        <input type="checkbox" id="considerHourlyRate" checked>
+                                        Consider Hourly Rate
+                                    </label>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Save Settings</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="admin-card">
+                        <div class="admin-card-header">
+                            <span class="admin-card-title">Fallback Rules</span>
+                        </div>
+                        <div class="admin-card-content">
+                            <form id="fallbackRulesForm">
+                                <div class="form-group">
+                                    <label>
+                                        <input type="checkbox" id="assignToAnyInCategory" checked>
+                                        Assign to Any in Category
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label>
+                                        <input type="checkbox" id="notifyAdminsIfUnassigned" checked>
+                                        Notify Admins if Unassigned
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label>Auto Reassign After (hours)</label>
+                                    <input type="number" id="autoReassignHours" value="48" min="1">
+                                </div>
+                                <button type="submit" class="btn btn-primary">Save Settings</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="admin-card">
+                        <div class="admin-card-header">
+                            <span class="admin-card-title">Commission Settings</span>
+                        </div>
+                        <div class="admin-card-content">
+                            <form id="commissionForm">
+                                <div class="form-group">
+                                    <label>Platform Commission (%)</label>
+                                    <input type="number" id="platformCommission" value="10" min="0" max="100">
+                                </div>
+                                <div class="form-group">
+                                    <label>Minimum Withdrawal (KES)</label>
+                                    <input type="number" id="minWithdrawal" value="1000" min="0">
+                                </div>
+                                <button type="submit" class="btn btn-primary">Save Settings</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Task CRUD Operations
+        window.openCreateTaskModal = function() {
+            // Set default deadline to 7 days from now
+            const deadline = new Date();
+            deadline.setDate(deadline.getDate() + 7);
+            document.getElementById('taskDeadline').value = deadline.toISOString().slice(0, 16);
+            
+            document.getElementById('createTaskModal').style.display = 'block';
+        };
+
+        document.getElementById('createTaskForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const taskData = {
+                task_details: {
+                    title: document.getElementById('taskTitle').value,
+                    description: document.getElementById('taskDescription').value,
+                    category: document.getElementById('taskCategory').value,
+                    subcategory: document.getElementById('taskSubcategory').value,
+                    priority: document.getElementById('taskPriority').value,
+                    estimated_hours: parseInt(document.getElementById('taskHours').value),
+                    budget: parseInt(document.getElementById('taskBudget').value),
+                    deadline: new Date(document.getElementById('taskDeadline').value).getTime(),
+                    created_at: Date.now()
+                },
+                assignment: {
+                    assigned_to: null,
+                    assigned_by: null,
+                    assigned_at: null,
+                    is_priority_match: false
+                },
+                status: {
+                    current: 'available',
+                    accepted_at: null,
+                    started_at: null,
+                    submitted_at: null,
+                    completed_at: null
+                },
+                deliverables: {
+                    files: [],
+                    submission_notes: null,
+                    feedback: null,
+                    rating: null
+                }
+            };
+
+            try {
+                // Create new task
+                const tasksRef = ref(database, 'tasks');
+                const newTaskRef = push(tasksRef);
+                await set(newTaskRef, taskData);
+
+                // Add to available tasks
+                const category = taskData.task_details.category;
+                const priority = taskData.task_details.priority;
+                const availableRef = ref(database, `available_tasks/${category}/${priority}/${newTaskRef.key}`);
+                await set(availableRef, {
+                    title: taskData.task_details.title,
+                    description: taskData.task_details.description,
+                    budget: taskData.task_details.budget,
+                    estimated_hours: taskData.task_details.estimated_hours,
+                    deadline: taskData.task_details.deadline,
+                    created_at: taskData.task_details.created_at
+                });
+
+                // Update admin tasks
+                const adminTasksRef = ref(database, `admin_tasks/${currentUser.uid}/created_tasks`);
+                const adminSnapshot = await get(adminTasksRef);
+                const adminTasks = adminSnapshot.exists() ? adminSnapshot.val() : [];
+                adminTasks.push(newTaskRef.key);
+                await set(adminTasksRef, adminTasks);
+
+                // Update admin stats
+                const adminStatsRef = ref(database, `admin_tasks/${currentUser.uid}/stats`);
+                const statsSnapshot = await get(adminStatsRef);
+                const stats = statsSnapshot.exists() ? statsSnapshot.val() : {
+                    total_tasks_created: 0,
+                    tasks_assigned: 0,
+                    tasks_completed: 0,
+                    pending_review: 0
+                };
+                await set(adminStatsRef, {
+                    ...stats,
+                    total_tasks_created: (stats.total_tasks_created || 0) + 1
+                });
+
+                showNotification('Task created successfully!', 'success');
+                closeModal('createTaskModal');
+                e.target.reset();
+            } catch (error) {
+                console.error("Error creating task:", error);
+                showNotification('Error creating task: ' + error.message, 'error');
+            }
+        });
+
+        window.viewTask = async function(taskId) {
+            const task = allTasks[taskId];
+            if (!task) return;
+
+            const content = document.getElementById('reviewContent');
+            const details = task.task_details || {};
+            const status = task.status || {};
+            const deliverables = task.deliverables || {};
+            const assignment = task.assignment || {};
+            const user = allUsers[assignment.assigned_to]?.personal || {};
+
+            content.innerHTML = `
+                <h3>${details.title}</h3>
+                
+                <div class="detail-grid">
+                    <div class="detail-item">
+                        <span class="detail-label">Category</span>
+                        <span class="detail-value">${getCategoryName(details.category)}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Priority</span>
+                        <span class="detail-value priority-${details.priority}">${(details.priority || '').toUpperCase()}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Budget</span>
+                        <span class="detail-value">KES ${details.budget}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Est. Hours</span>
+                        <span class="detail-value">${details.estimated_hours} hrs</span>
+                    </div>
+                </div>
+
+                <div class="task-detail-section">
+                    <h4>Description</h4>
+                    <p>${details.description || 'No description'}</p>
+                </div>
+
+                ${assignment.assigned_to ? `
+                    <div class="task-detail-section">
+                        <h4>Assignment</h4>
+                        <p><strong>Assigned To:</strong> ${user.full_name || assignment.assigned_to}</p>
+                        <p><strong>Assigned By:</strong> ${assignment.assigned_by || 'System'}</p>
+                        <p><strong>Assigned At:</strong> ${assignment.assigned_at ? new Date(assignment.assigned_at).toLocaleString() : 'N/A'}</p>
+                    </div>
+                ` : ''}
+
+                <div class="task-detail-section">
+                    <h4>Status Timeline</h4>
+                    <p><strong>Current:</strong> ${status.current?.replace('_', ' ')}</p>
+                    ${status.accepted_at ? `<p><strong>Accepted:</strong> ${new Date(status.accepted_at).toLocaleString()}</p>` : ''}
+                    ${status.started_at ? `<p><strong>Started:</strong> ${new Date(status.started_at).toLocaleString()}</p>` : ''}
+                    ${status.submitted_at ? `<p><strong>Submitted:</strong> ${new Date(status.submitted_at).toLocaleString()}</p>` : ''}
+                    ${status.completed_at ? `<p><strong>Completed:</strong> ${new Date(status.completed_at).toLocaleString()}</p>` : ''}
+                </div>
+
+                ${deliverables.files && deliverables.files.length > 0 ? `
+                    <div class="task-detail-section">
+                        <h4>Deliverables</h4>
+                        ${deliverables.files.map(file => `
+                            <div class="deliverable-item">
+                                <i class="fas fa-file"></i>
+                                <a href="${file}" target="_blank">View File</a>
+                            </div>
+                        `).join('')}
+                        ${deliverables.submission_notes ? `
+                            <p><strong>Notes:</strong> ${deliverables.submission_notes}</p>
+                        ` : ''}
+                    </div>
+                ` : ''}
+
+                ${deliverables.feedback ? `
+                    <div class="task-detail-section">
+                        <h4>Feedback</h4>
+                        <p><strong>Rating:</strong> ${'⭐'.repeat(deliverables.rating)} (${deliverables.rating}/5)</p>
+                        <p><strong>Feedback:</strong> ${deliverables.feedback}</p>
+                    </div>
+                ` : ''}
+
+                <div class="form-actions">
+                    <button class="btn btn-outline" onclick="closeModal('reviewTaskModal')">Close</button>
+                    ${status.current === 'submitted' ? `
+                        <button class="btn btn-primary" onclick="openReviewModal('${taskId}')">Review Submission</button>
+                    ` : ''}
+                </div>
+            `;
+
+            document.getElementById('reviewTaskModal').style.display = 'block';
+        };
+
+        window.editTask = async function(taskId) {
+            const task = allTasks[taskId];
+            if (!task) return;
+
+            const details = task.task_details || {};
+            
+            document.getElementById('editTaskId').value = taskId;
+            document.getElementById('editTaskTitle').value = details.title || '';
+            document.getElementById('editTaskDescription').value = details.description || '';
+            document.getElementById('editTaskCategory').value = details.category || 'advert';
+            document.getElementById('editTaskSubcategory').value = details.subcategory || '';
+            document.getElementById('editTaskPriority').value = details.priority || 'medium';
+            document.getElementById('editTaskHours').value = details.estimated_hours || 5;
+            document.getElementById('editTaskBudget').value = details.budget || 1000;
+            
+            if (details.deadline) {
+                const deadline = new Date(details.deadline);
+                document.getElementById('editTaskDeadline').value = deadline.toISOString().slice(0, 16);
+            }
+
+            document.getElementById('editTaskModal').style.display = 'block';
+        };
+
+        document.getElementById('editTaskForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const taskId = document.getElementById('editTaskId').value;
+            const updates = {};
+
+            const taskData = {
+                'task_details/title': document.getElementById('editTaskTitle').value,
+                'task_details/description': document.getElementById('editTaskDescription').value,
+                'task_details/category': document.getElementById('editTaskCategory').value,
+                'task_details/subcategory': document.getElementById('editTaskSubcategory').value,
+                'task_details/priority': document.getElementById('editTaskPriority').value,
+                'task_details/estimated_hours': parseInt(document.getElementById('editTaskHours').value),
+                'task_details/budget': parseInt(document.getElementById('editTaskBudget').value),
+                'task_details/deadline': new Date(document.getElementById('editTaskDeadline').value).getTime()
+            };
+
+            try {
+                // Update task
+                for (const [path, value] of Object.entries(taskData)) {
+                    updates[`tasks/${taskId}/${path}`] = value;
+                }
+
+                // Update available tasks if task is available
+                const task = allTasks[taskId];
+                if (task.status?.current === 'available') {
+                    const category = taskData['task_details/category'];
+                    const priority = taskData['task_details/priority'];
+                    
+                    // Remove from old location
+                    if (task.task_details?.category && task.task_details?.priority) {
+                        updates[`available_tasks/${task.task_details.category}/${task.task_details.priority}/${taskId}`] = null;
+                    }
+                    
+                    // Add to new location
+                    updates[`available_tasks/${category}/${priority}/${taskId}`] = {
+                        title: taskData['task_details/title'],
+                        description: taskData['task_details/description'],
+                        budget: taskData['task_details/budget'],
+                        estimated_hours: taskData['task_details/estimated_hours'],
+                        deadline: taskData['task_details/deadline'],
+                        created_at: task.task_details?.created_at || Date.now()
+                    };
+                }
+
+                await update(ref(database), updates);
+                
+                showNotification('Task updated successfully!', 'success');
+                closeModal('editTaskModal');
+            } catch (error) {
+                console.error("Error updating task:", error);
+                showNotification('Error updating task: ' + error.message, 'error');
+            }
+        });
+
+        window.deleteTask = async function(taskId) {
+            if (!confirm('Are you sure you want to delete this task? This action cannot be undone.')) return;
+
+            try {
+                const task = allTasks[taskId];
+                const updates = {};
+
+                // Remove from tasks
+                updates[`tasks/${taskId}`] = null;
+
+                // Remove from available tasks if applicable
+                if (task.status?.current === 'available' && task.task_details) {
+                    updates[`available_tasks/${task.task_details.category}/${task.task_details.priority}/${taskId}`] = null;
+                }
+
+                // Remove from user tasks if assigned
+                if (task.assignment?.assigned_to) {
+                    updates[`user_tasks/${task.assignment.assigned_to}/assigned_tasks/${taskId}`] = null;
+                }
+
+                await update(ref(database), updates);
+                
+                showNotification('Task deleted successfully!', 'success');
+            } catch (error) {
+                console.error("Error deleting task:", error);
+                showNotification('Error deleting task: ' + error.message, 'error');
+            }
+        };
+
+        // Assignment functions
+        window.openAssignTaskModal = async function(taskId = null) {
+            const modal = document.getElementById('assignTaskModal');
+            const select = document.getElementById('assignFreelancer');
+            
+            // Clear and populate freelancer list
+            select.innerHTML = '<option value="">Choose a freelancer...</option>';
+            
+            // Add verified freelancers
+            Object.entries(allUsers).forEach(([userId, user]) => {
+                if (user.account_state === 'approved') {
+                    const option = document.createElement('option');
+                    option.value = userId;
+                    option.textContent = `${user.personal?.full_name || 'Unknown'} - ${user.professional?.main_category || 'No category'}`;
+                    select.appendChild(option);
+                }
+            });
+
+            if (taskId) {
+                const task = allTasks[taskId];
+                document.getElementById('assignTaskId').value = taskId;
+                document.getElementById('assignTaskTitle').value = task.task_details?.title || '';
+            } else {
+                document.getElementById('assignTaskId').value = '';
+                document.getElementById('assignTaskTitle').value = 'Select a task first';
+            }
+
+            modal.style.display = 'block';
+        };
+
+        document.getElementById('assignTaskForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const taskId = document.getElementById('assignTaskId').value;
+            const freelancerId = document.getElementById('assignFreelancer').value;
+            const priorityMatch = document.getElementById('priorityMatch').checked;
+
+            if (!taskId) {
+                showNotification('Please select a task first', 'warning');
+                return;
+            }
+
+            try {
+                const task = allTasks[taskId];
+                const updates = {};
+
+                // Update task assignment
+                updates[`tasks/${taskId}/assignment/assigned_to`] = freelancerId;
+                updates[`tasks/${taskId}/assignment/assigned_by`] = currentUser.uid;
+                updates[`tasks/${taskId}/assignment/assigned_at`] = Date.now();
+                updates[`tasks/${taskId}/assignment/is_priority_match`] = priorityMatch;
+                updates[`tasks/${taskId}/status/current`] = 'in_progress';
+                updates[`tasks/${taskId}/status/accepted_at`] = Date.now();
+
+                // Update user tasks
+                updates[`user_tasks/${freelancerId}/assigned_tasks/${taskId}`] = {
+                    assigned_at: Date.now(),
+                    priority_match: priorityMatch,
+                    current_status: 'in_progress'
+                };
+
+                // Update user stats
+                const userStatsRef = ref(database, `user_tasks/${freelancerId}/stats`);
+                const statsSnapshot = await get(userStatsRef);
+                const stats = statsSnapshot.exists() ? statsSnapshot.val() : {
+                    tasks_in_progress: 0,
+                    tasks_available: 0,
+                    tasks_completed: 0,
+                    total_earned: 0
+                };
+                
+                updates[`user_tasks/${freelancerId}/stats`] = {
+                    ...stats,
+                    tasks_in_progress: (stats.tasks_in_progress || 0) + 1
+                };
+
+                // Remove from available tasks
+                if (task.task_details) {
+                    updates[`available_tasks/${task.task_details.category}/${task.task_details.priority}/${taskId}`] = null;
+                }
+
+                // Update admin tasks stats
+                const adminStatsRef = ref(database, `admin_tasks/${currentUser.uid}/stats`);
+                const adminStatsSnapshot = await get(adminStatsRef);
+                const adminStats = adminStatsSnapshot.exists() ? adminStatsSnapshot.val() : {
+                    total_tasks_created: 0,
+                    tasks_assigned: 0,
+                    tasks_completed: 0,
+                    pending_review: 0
+                };
+                
+                updates[`admin_tasks/${currentUser.uid}/stats`] = {
+                    ...adminStats,
+                    tasks_assigned: (adminStats.tasks_assigned || 0) + 1
+                };
+
+                // Add to admin assigned tasks
+                updates[`admin_tasks/${currentUser.uid}/assigned_tasks/${taskId}`] = freelancerId;
+
+                await update(ref(database), updates);
+
+                showNotification('Task assigned successfully!', 'success');
+                closeModal('assignTaskModal');
+            } catch (error) {
+                console.error("Error assigning task:", error);
+                showNotification('Error assigning task: ' + error.message, 'error');
+            }
+        });
+
+        // Review functions
+        window.openReviewModal = async function(taskId) {
+            const task = allTasks[taskId];
+            if (!task) return;
+
+            const content = document.getElementById('reviewContent');
+            const details = task.task_details || {};
+            const deliverables = task.deliverables || {};
+            const user = allUsers[task.assignment?.assigned_to]?.personal || {};
+
+            content.innerHTML = `
+                <h3>${details.title}</h3>
+                <p><strong>Freelancer:</strong> ${user.full_name || 'Unknown'}</p>
+                
+                <div class="review-panel">
+                    <h4>Submission</h4>
+                    ${deliverables.submission_notes ? `
+                        <p><strong>Notes:</strong> ${deliverables.submission_notes}</p>
+                    ` : ''}
+                    
+                    ${deliverables.files && deliverables.files.length > 0 ? `
+                        <div class="deliverables-list">
+                            <strong>Files:</strong>
+                            ${deliverables.files.map(file => `
+                                <div class="deliverable-item">
+                                    <i class="fas fa-file"></i>
+                                    <a href="${file}" target="_blank">View File</a>
+                                </div>
+                            `).join('')}
+                        </div>
+                    ` : ''}
+                </div>
+
+                <form id="reviewForm">
+                    <input type="hidden" id="reviewTaskId" value="${taskId}">
+                    
+                    <div class="form-group">
+                        <label>Rating</label>
+                        <div class="rating-input">
+                            <div class="star-rating" id="starRating">
+                                <i class="far fa-star" data-rating="1"></i>
+                                <i class="far fa-star" data-rating="2"></i>
+                                <i class="far fa-star" data-rating="3"></i>
+                                <i class="far fa-star" data-rating="4"></i>
+                                <i class="far fa-star" data-rating="5"></i>
+                            </div>
+                            <input type="hidden" id="reviewRating" value="0">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Feedback</label>
+                        <textarea id="reviewFeedback" rows="4" placeholder="Provide feedback on the work..."></textarea>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-outline" onclick="closeModal('reviewTaskModal')">Cancel</button>
+                        <button type="submit" class="btn btn-success">Approve & Complete</button>
+                        <button type="button" class="btn btn-warning" onclick="requestRevision('${taskId}')">Request Revision</button>
+                    </div>
+                </form>
+            `;
+
+            // Add star rating functionality
+            setTimeout(() => {
+                const stars = document.querySelectorAll('#starRating i');
+                stars.forEach(star => {
+                    star.addEventListener('click', () => {
+                        const rating = parseInt(star.dataset.rating);
+                        document.getElementById('reviewRating').value = rating;
+                        
+                        stars.forEach((s, index) => {
+                            if (index < rating) {
+                                s.className = 'fas fa-star';
+                            } else {
+                                s.className = 'far fa-star';
+                            }
+                        });
+                    });
+                });
+            }, 100);
+
+            document.getElementById('reviewForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                await completeReview(taskId);
+            });
+
+            document.getElementById('reviewTaskModal').style.display = 'block';
+        };
+
+        async function completeReview(taskId) {
+            const rating = parseInt(document.getElementById('reviewRating').value);
+            const feedback = document.getElementById('reviewFeedback').value;
+
+            if (rating === 0) {
+                showNotification('Please provide a rating', 'warning');
+                return;
+            }
+
+            try {
+                const task = allTasks[taskId];
+                const updates = {};
+
+                // Update task status
+                updates[`tasks/${taskId}/status/current`] = 'completed';
+                updates[`tasks/${taskId}/status/completed_at`] = Date.now();
+                updates[`tasks/${taskId}/deliverables/feedback`] = feedback;
+                updates[`tasks/${taskId}/deliverables/rating`] = rating;
+
+                // Update user stats
+                const userId = task.assignment?.assigned_to;
+                if (userId) {
+                    const userStatsRef = ref(database, `user_tasks/${userId}/stats`);
+                    const statsSnapshot = await get(userStatsRef);
+                    if (statsSnapshot.exists()) {
+                        const stats = statsSnapshot.val();
+                        updates[`user_tasks/${userId}/stats`] = {
+                            ...stats,
+                            tasks_completed: (stats.tasks_completed || 0) + 1,
+                            total_earned: (stats.total_earned || 0) + (task.task_details?.budget || 0),
+                            average_rating: calculateNewAverage(stats.average_rating || 0, stats.tasks_completed || 0, rating)
+                        };
+                    }
+
+                    // Add to completed tasks
+                    updates[`user_tasks/${userId}/completed_tasks/${taskId}`] = {
+                        completed_at: Date.now(),
+                        rating: rating,
+                        feedback: feedback
+                    };
+
+                    // Remove from assigned tasks
+                    updates[`user_tasks/${userId}/assigned_tasks/${taskId}`] = null;
+                }
+
+                // Update admin stats
+                const adminStatsRef = ref(database, `admin_tasks/${currentUser.uid}/stats`);
+                const adminStatsSnapshot = await get(adminStatsRef);
+                if (adminStatsSnapshot.exists()) {
+                    const adminStats = adminStatsSnapshot.val();
+                    updates[`admin_tasks/${currentUser.uid}/stats`] = {
+                        ...adminStats,
+                        tasks_completed: (adminStats.tasks_completed || 0) + 1,
+                        pending_review: Math.max(0, (adminStats.pending_review || 0) - 1)
+                    };
+                }
+
+                await update(ref(database), updates);
+
+                showNotification('Task completed and reviewed successfully!', 'success');
+                closeModal('reviewTaskModal');
+            } catch (error) {
+                console.error("Error completing review:", error);
+                showNotification('Error completing review: ' + error.message, 'error');
+            }
+        }
+
+        window.requestRevision = async function(taskId) {
+            const feedback = document.getElementById('reviewFeedback').value;
+
+            if (!feedback) {
+                showNotification('Please provide feedback on what needs revision', 'warning');
+                return;
+            }
+
+            try {
+                const updates = {};
+
+                // Update task status back to in_progress
+                updates[`tasks/${taskId}/status/current`] = 'in_progress';
+                updates[`tasks/${taskId}/deliverables/revision_request`] = feedback;
+
+                await update(ref(database), updates);
+
+                showNotification('Revision requested', 'success');
+                closeModal('reviewTaskModal');
+            } catch (error) {
+                console.error("Error requesting revision:", error);
+                showNotification('Error requesting revision: ' + error.message, 'error');
+            }
+        };
+
+        // User management functions
+        window.viewUser = async function(userId) {
+            const user = allUsers[userId];
+            if (!user) return;
+
+            const content = document.getElementById('verifyUserContent');
+            const personal = user.personal || {};
+            const professional = user.professional || {};
+            const files = user.files || {};
+
+            content.innerHTML = `
+                <h3>${personal.full_name || 'Unknown User'}</h3>
+                
+                <div class="detail-grid">
+                    <div class="detail-item">
+                        <span class="detail-label">Email</span>
+                        <span class="detail-value">${personal.email_address || 'N/A'}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Phone</span>
+                        <span class="detail-value">${personal.phone_number || 'N/A'}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Location</span>
+                        <span class="detail-value">${personal.city_location || 'N/A'}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Joined</span>
+                        <span class="detail-value">${personal.joined_timestamp ? new Date(personal.joined_timestamp).toLocaleDateString() : 'N/A'}</span>
+                    </div>
+                </div>
+
+                <div class="task-detail-section">
+                    <h4>Professional Information</h4>
+                    <p><strong>Category:</strong> ${getCategoryName(professional.main_category) || 'Not set'}</p>
+                    <p><strong>Skills:</strong> ${professional.skill_set || 'Not set'}</p>
+                    <p><strong>Experience:</strong> ${professional.experience_level?.replace(/_/g, ' ') || 'Not set'}</p>
+                    <p><strong>Rate:</strong> KES ${professional.rate_per_hour || 0}/hour</p>
+                    <p><strong>Availability:</strong> ${professional.hours_per_week?.replace(/_/g, ' ') || 'Not set'}</p>
+                </div>
+
+                <div class="task-detail-section">
+                    <h4>Documents</h4>
+                    ${files.cv_file_url ? `
+                        <div class="deliverable-item">
+                            <i class="fas fa-file-pdf"></i>
+                            <a href="${files.cv_file_url}" target="_blank">View CV</a>
+                        </div>
+                    ` : '<p>No CV uploaded</p>'}
+                    
+                    ${files.id_file_url ? `
+                        <div class="deliverable-item">
+                            <i class="fas fa-id-card"></i>
+                            <a href="${files.id_file_url}" target="_blank">View ID</a>
+                        </div>
+                    ` : '<p>No ID uploaded</p>'}
+                    
+                    ${files.certificates_urls ? `
+                        <div class="deliverable-item">
+                            <i class="fas fa-certificate"></i>
+                            <a href="${files.certificates_urls}" target="_blank">View Certificates</a>
+                        </div>
+                    ` : '<p>No certificates uploaded</p>'}
+                </div>
+
+                <div class="form-actions">
+                    <button class="btn btn-outline" onclick="closeModal('verifyUserModal')">Close</button>
+                    ${user.account_state === 'pending_verification' ? `
+                        <button class="btn btn-success" onclick="verifyUser('${userId}')">Approve User</button>
+                        <button class="btn btn-danger" onclick="rejectUser('${userId}')">Reject</button>
+                    ` : ''}
+                </div>
+            `;
+
+            document.getElementById('verifyUserModal').style.display = 'block';
+        };
+
+        window.verifyUser = async function(userId) {
+            if (!confirm('Approve this user?')) return;
+
+            try {
+                const updates = {};
+
+                // Update user account state
+                updates[`users/${userId}/account_state`] = 'approved';
+                updates[`users/${userId}/files/verification_status`] = true;
+
+                // Update site statistics
+                const statsRef = ref(database, 'site_statistics');
+                const statsSnapshot = await get(statsRef);
+                if (statsSnapshot.exists()) {
+                    const stats = statsSnapshot.val();
+                    updates['site_statistics'] = {
+                        ...stats,
+                        awaiting_review: Math.max(0, (stats.awaiting_review || 0) - 1),
+                        approved_members: (stats.approved_members || 0) + 1
+                    };
+                }
+
+                await update(ref(database), updates);
+
+                showNotification('User approved successfully!', 'success');
+                closeModal('verifyUserModal');
+            } catch (error) {
+                console.error("Error verifying user:", error);
+                showNotification('Error verifying user: ' + error.message, 'error');
+            }
+        };
+
+        window.rejectUser = async function(userId) {
+            const reason = prompt('Please provide a reason for rejection:');
+            if (!reason) return;
+
+            try {
+                const updates = {};
+
+                // Update user account state
+                updates[`users/${userId}/account_state`] = 'rejected';
+                updates[`users/${userId}/rejection_reason`] = reason;
+
+                // Update site statistics
+                const statsRef = ref(database, 'site_statistics');
+                const statsSnapshot = await get(statsRef);
+                if (statsSnapshot.exists()) {
+                    const stats = statsSnapshot.val();
+                    updates['site_statistics'] = {
+                        ...stats,
+                        awaiting_review: Math.max(0, (stats.awaiting_review || 0) - 1)
+                    };
+                }
+
+                await update(ref(database), updates);
+
+                showNotification('User rejected', 'warning');
+                closeModal('verifyUserModal');
+            } catch (error) {
+                console.error("Error rejecting user:", error);
+                showNotification('Error rejecting user: ' + error.message, 'error');
+            }
+        };
+
+        window.suspendUser = async function(userId) {
+            if (!confirm('Suspend this user?')) return;
+
+            try {
+                await set(ref(database, `users/${userId}/account_state`), 'suspended');
+                showNotification('User suspended', 'warning');
+            } catch (error) {
+                console.error("Error suspending user:", error);
+                showNotification('Error suspending user: ' + error.message, 'error');
+            }
+        };
+
+        // Category management
+        window.openCreateCategoryModal = function() {
+            // Implementation for creating categories
+            showNotification('Category creation coming soon!', 'info');
+        };
+
+        window.editCategory = function(categoryId) {
+            showNotification('Edit category coming soon!', 'info');
+        };
+
+        window.deleteCategory = function(categoryId) {
+            if (!confirm('Delete this category?')) return;
+            showNotification('Delete category coming soon!', 'info');
+        };
+
+        // Utility functions
+        function calculateNewAverage(currentAvg, count, newRating) {
+            return ((currentAvg * count) + newRating) / (count + 1);
+        }
+
+        function getCategoryName(categoryId) {
+            const categories = {
+                'advert': 'Advert Generation',
+                'social': 'Social Media Management',
+                'data': 'Data Entry'
+            };
+            return categories[categoryId] || categoryId || 'General';
+        }
+
+        window.closeModal = function(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        };
+
+        function showNotification(message, type = 'info') {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = `notification ${type}`;
+            notification.style.display = 'block';
+            
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
