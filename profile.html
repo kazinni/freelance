@@ -3,452 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KazInni · Freelancer Dashboard</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="css/profile.css">
+    <title>FlexKazi - Profile</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dark-theme.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body>
-    <div class="bg-pattern"></div>
-    <div class="notification" id="notification"></div>
+<body class="dark-mode">
+    <div class="app-container">
+        <!-- Same sidebar as dashboard -->
+        <nav class="sidebar">
+            <!-- ... sidebar content ... -->
+        </nav>
 
-    <header class="header">
-        <h1 class="header-title">Kaz<span>Inni</span></h1>
-        <div class="user-profile" id="userProfile">
-            <div class="user-avatar" id="userAvatar">...</div>
-            <div class="user-name" id="userName">Loading...</div>
-            <div class="profile-dropdown" id="profileDropdown">
-                <div class="profile-header">
-                    <div class="profile-avatar" id="profileAvatar">...</div>
-                    <div class="profile-info">
-                        <h3 id="profileName">Loading...</h3>
-                        <p id="profileEmail">loading...</p>
-                        <p id="profileSkills">...</p>
-                    </div>
-                </div>
-                <div class="profile-stats">
-                    <div class="profile-stat">
-                        <div class="profile-stat-value" id="profileCompleted">0</div>
-                        <div class="profile-stat-label">Completed</div>
-                    </div>
-                    <div class="profile-stat">
-                        <div class="profile-stat-value" id="profileEarnings">KSh 0</div>
-                        <div class="profile-stat-label">Earned</div>
-                    </div>
-                    <div class="profile-stat">
-                        <div class="profile-stat-value" id="profileRating">0.0</div>
-                        <div class="profile-stat-label">Rating</div>
-                    </div>
-                    <div class="profile-stat">
-                        <div class="profile-stat-value" id="profileActive">0</div>
-                        <div class="profile-stat-label">Active</div>
-                    </div>
-                </div>
-                <ul class="profile-menu">
-                    <li class="profile-menu-item">
-                        <a href="#" class="profile-menu-link" onclick="showSection('settings-section')">
-                            <i class="fas fa-cog"></i>
-                            <span>Settings</span>
-                        </a>
-                    </li>
-                    <li class="profile-menu-item">
-                        <a href="#" class="profile-menu-link" onclick="handleLogout()">
-                            <i class="fas fa-sign-out-alt"></i>
-                            <span>Logout</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </header>
+        <main class="main-content">
+            <header class="content-header">
+                <h1>My Profile</h1>
+            </header>
 
-    <div class="container">
-        <div class="sidebar">
-            <ul class="sidebar-menu">
-                <li class="menu-item">
-                    <a href="#" class="menu-link active" onclick="showSection('tasks-section')">
-                        <i class="fas fa-tasks"></i>
-                        <span>My Tasks</span>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="#" class="menu-link" onclick="showSection('priority-tasks-section')">
-                        <i class="fas fa-star"></i>
-                        <span>Priority Tasks</span>
-                        <span class="badge" id="priorityBadge">0</span>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="#" class="menu-link" onclick="showSection('available-tasks-section')">
-                        <i class="fas fa-clock"></i>
-                        <span>Available Tasks</span>
-                        <span class="badge" id="availableBadge">0</span>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="#" class="menu-link" onclick="showSection('in-progress-section')">
-                        <i class="fas fa-play-circle"></i>
-                        <span>In Progress</span>
-                        <span class="badge" id="progressBadge">0</span>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="#" class="menu-link" onclick="showSection('completed-section')">
-                        <i class="fas fa-check-circle"></i>
-                        <span>Completed</span>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="#" class="menu-link" onclick="showSection('performance-section')">
-                        <i class="fas fa-chart-line"></i>
-                        <span>Performance</span>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="#" class="menu-link" onclick="showSection('documents-section')">
-                        <i class="fas fa-file-alt"></i>
-                        <span>Documents</span>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="#" class="menu-link" onclick="showSection('settings-section')">
-                        <i class="fas fa-cog"></i>
-                        <span>Settings</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
-
-        <div class="main-content">
-            <!-- Loading State -->
-            <div id="loadingState" class="loading-state">
-                <div class="spinner"></div>
-                <p>Loading your dashboard...</p>
-            </div>
-
-            <!-- Tasks Section -->
-            <div id="tasks-section" class="content-section">
-                <h2 class="section-title">
-                    <span>My Tasks</span>
-                    <span class="status-badge status-assigned" id="activeTasksBadge">Loading...</span>
-                </h2>
-
-                <div class="task-stats" id="taskStats">
-                    <div class="stat-card loading-card">
-                        <div class="spinner"></div>
-                    </div>
+            <div class="profile-container">
+                <div class="profile-section">
+                    <h2>Personal Information</h2>
+                    <form id="personalInfoForm">
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" id="profileName" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" id="profileEmail" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Phone</label>
+                            <input type="tel" id="profilePhone">
+                        </div>
+                        <div class="form-group">
+                            <label>City</label>
+                            <input type="text" id="profileCity">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Update Profile</button>
+                    </form>
                 </div>
 
-                <div class="task-tabs">
-                    <div class="task-tab active" onclick="switchTaskTab('priority')">Priority Tasks</div>
-                    <div class="task-tab" onclick="switchTaskTab('assigned')">Assigned</div>
-                    <div class="task-tab" onclick="switchTaskTab('in-progress')">In Progress</div>
-                    <div class="task-tab" onclick="switchTaskTab('recent')">Recent</div>
+                <div class="profile-section">
+                    <h2>Professional Information</h2>
+                    <form id="professionalInfoForm">
+                        <div class="form-group">
+                            <label>Main Category</label>
+                            <select id="profileCategory">
+                                <option value="advert">Advert Generation</option>
+                                <option value="social">Social Media Management</option>
+                                <option value="data">Data Entry</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Skills (comma separated)</label>
+                            <input type="text" id="profileSkills" placeholder="e.g., Canva, Photoshop, Excel">
+                        </div>
+                        <div class="form-group">
+                            <label>Experience Level</label>
+                            <select id="profileExperience">
+                                <option value="0_to_1_year">0-1 year</option>
+                                <option value="1_to_3_years">1-3 years</option>
+                                <option value="3_to_5_years">3-5 years</option>
+                                <option value="5_plus_years">5+ years</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Rate per Hour (KES)</label>
+                            <input type="number" id="profileRate">
+                        </div>
+                        <div class="form-group">
+                            <label>Hours per Week</label>
+                            <select id="profileHours">
+                                <option value="0_to_10">0-10 hours</option>
+                                <option value="10_to_20">10-20 hours</option>
+                                <option value="20_to_30">20-30 hours</option>
+                                <option value="30_plus">30+ hours</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Update Professional Info</button>
+                    </form>
                 </div>
 
-                <div id="priority-tasks-container" class="task-list active">
-                    <div class="loading">
-                        <div class="spinner"></div>
-                    </div>
-                </div>
-
-                <div id="assigned-tasks-container" class="task-list">
-                    <div class="loading">
-                        <div class="spinner"></div>
-                    </div>
-                </div>
-
-                <div id="in-progress-tasks-container" class="task-list">
-                    <div class="loading">
-                        <div class="spinner"></div>
-                    </div>
-                </div>
-
-                <div id="recent-tasks-container" class="task-list">
-                    <div class="loading">
-                        <div class="spinner"></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Priority Tasks Section -->
-            <div id="priority-tasks-section" class="content-section">
-                <h2 class="section-title">
-                    <span>Priority Tasks</span>
-                    <span class="status-badge status-assigned" id="priorityTasksBadge">0</span>
-                </h2>
-                <div id="priorityTasksContainer" class="task-list">
-                    <div class="loading">
-                        <div class="spinner"></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Available Tasks Section -->
-            <div id="available-tasks-section" class="content-section">
-                <h2 class="section-title">
-                    <span>Available Tasks</span>
-                    <span class="status-badge status-assigned" id="availableTasksBadge">0</span>
-                </h2>
-                
-                <div class="filter-bar">
-                    <select id="categoryFilter" class="filter-select" onchange="filterAvailableTasks()">
-                        <option value="">All Categories</option>
-                        <option value="advert">Advert Generation</option>
-                        <option value="social">Social Media</option>
-                        <option value="data">Data Entry</option>
-                    </select>
-                    
-                    <select id="priorityFilter" class="filter-select" onchange="filterAvailableTasks()">
-                        <option value="">All Priorities</option>
-                        <option value="high">High Priority</option>
-                        <option value="medium">Medium Priority</option>
-                        <option value="low">Low Priority</option>
-                    </select>
-                </div>
-
-                <div id="availableTasksContainer" class="task-list">
-                    <div class="loading">
-                        <div class="spinner"></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- In Progress Section -->
-            <div id="in-progress-section" class="content-section">
-                <h2 class="section-title">
-                    <span>Tasks In Progress</span>
-                    <span class="status-badge status-in-progress" id="inProgressBadge">0</span>
-                </h2>
-                <div id="inProgressContainer" class="task-list">
-                    <div class="loading">
-                        <div class="spinner"></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Completed Tasks Section -->
-            <div id="completed-section" class="content-section">
-                <h2 class="section-title">
-                    <span>Completed Tasks</span>
-                    <span class="status-badge status-completed" id="completedTasksBadge">0</span>
-                </h2>
-                <div id="completedTasksContainer" class="task-list">
-                    <div class="loading">
-                        <div class="spinner"></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Performance Section -->
-            <div id="performance-section" class="content-section">
-                <h2 class="section-title">
-                    <span>Performance Dashboard</span>
-                </h2>
-                
-                <div class="performance-metrics" id="performanceMetrics">
-                    <div class="metric-card loading-card">
-                        <div class="spinner"></div>
-                    </div>
-                </div>
-
-                <div class="performance-charts">
-                    <div class="chart-card">
-                        <h3>Task Completion Timeline</h3>
-                        <div id="completionChart" class="chart-placeholder">
-                            <p>Loading chart data...</p>
+                <div class="profile-section">
+                    <h2>Documents</h2>
+                    <div class="documents-list">
+                        <div class="document-item">
+                            <span>CV</span>
+                            <button class="btn btn-outline" id="uploadCV">Upload</button>
+                        </div>
+                        <div class="document-item">
+                            <span>ID</span>
+                            <button class="btn btn-outline" id="uploadID">Upload</button>
+                        </div>
+                        <div class="document-item">
+                            <span>Certificates</span>
+                            <button class="btn btn-outline" id="uploadCert">Upload</button>
                         </div>
                     </div>
-                    
-                    <div class="chart-card">
-                        <h3>Earnings by Category</h3>
-                        <div id="earningsChart" class="chart-placeholder">
-                            <p>Loading chart data...</p>
-                        </div>
-                    </div>
+                    <p class="verification-status" id="verificationStatus">Verification Status: Pending</p>
                 </div>
             </div>
-
-            <!-- Documents Section -->
-            <div id="documents-section" class="content-section">
-                <h2 class="section-title">
-                    <span>Project Documents</span>
-                </h2>
-                
-                <div class="documents-categories">
-                    <button class="category-btn active" onclick="filterDocuments('all')">All</button>
-                    <button class="category-btn" onclick="filterDocuments('worksheet')">Worksheets</button>
-                    <button class="category-btn" onclick="filterDocuments('reference')">References</button>
-                    <button class="category-btn" onclick="filterDocuments('guidelines')">Guidelines</button>
-                </div>
-
-                <div class="documents-list" id="documentsList">
-                    <div class="loading">
-                        <div class="spinner"></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Settings Section -->
-            <div id="settings-section" class="content-section">
-                <h2 class="section-title">
-                    <span>Settings</span>
-                </h2>
-
-                <div class="settings-container">
-                    <!-- Profile Settings -->
-                    <div class="settings-card">
-                        <h3 class="settings-title">
-                            <i class="fas fa-user"></i>
-                            Profile Information
-                        </h3>
-                        
-                        <div class="settings-form">
-                            <div class="form-group">
-                                <label class="form-label">Full Name</label>
-                                <input type="text" id="settingsFullName" class="form-control">
-                            </div>
-
-                            <div class="form-group">
-                                <label class="form-label">Phone Number</label>
-                                <input type="tel" id="settingsPhone" class="form-control">
-                            </div>
-
-                            <div class="form-group">
-                                <label class="form-label">Location</label>
-                                <select id="settingsLocation" class="form-control">
-                                    <option value="Nairobi">Nairobi</option>
-                                    <option value="Mombasa">Mombasa</option>
-                                    <option value="Kisumu">Kisumu</option>
-                                    <option value="Nakuru">Nakuru</option>
-                                    <option value="Eldoret">Eldoret</option>
-                                    <option value="Other">Other</option>
-                                </select>
-                            </div>
-
-                            <button class="btn btn-primary" onclick="updateProfile()">
-                                <i class="fas fa-save"></i>
-                                Save Changes
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Professional Settings -->
-                    <div class="settings-card">
-                        <h3 class="settings-title">
-                            <i class="fas fa-briefcase"></i>
-                            Professional Details
-                        </h3>
-                        
-                        <div class="settings-form">
-                            <div class="form-group">
-                                <label class="form-label">Primary Category</label>
-                                <select id="settingsCategory" class="form-control">
-                                    <option value="advert">Advert Generation</option>
-                                    <option value="social">Social Media Management</option>
-                                    <option value="data">Data Entry & Office Tools</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="form-label">Skills (comma separated)</label>
-                                <input type="text" id="settingsSkills" class="form-control">
-                            </div>
-
-                            <div class="form-group">
-                                <label class="form-label">Experience Level</label>
-                                <select id="settingsExperience" class="form-control">
-                                    <option value="0-1 years">0-1 years (Beginner)</option>
-                                    <option value="1-3 years">1-3 years (Intermediate)</option>
-                                    <option value="3-5 years">3-5 years (Advanced)</option>
-                                    <option value="5+ years">5+ years (Expert)</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="form-label">Hourly Rate (KSh)</label>
-                                <input type="number" id="settingsRate" class="form-control" min="0">
-                            </div>
-
-                            <button class="btn btn-primary" onclick="updateProfessional()">
-                                <i class="fas fa-save"></i>
-                                Save Changes
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Notification Settings -->
-                    <div class="settings-card">
-                        <h3 class="settings-title">
-                            <i class="fas fa-bell"></i>
-                            Notification Preferences
-                        </h3>
-                        
-                        <div class="settings-form">
-                            <div class="checkbox-group">
-                                <input type="checkbox" id="notifyPriority" checked>
-                                <label for="notifyPriority">Priority task assignments</label>
-                            </div>
-
-                            <div class="checkbox-group">
-                                <input type="checkbox" id="notifyAvailable" checked>
-                                <label for="notifyAvailable">New available tasks</label>
-                            </div>
-
-                            <div class="checkbox-group">
-                                <input type="checkbox" id="notifyDeadline" checked>
-                                <label for="notifyDeadline">Deadline reminders</label>
-                            </div>
-
-                            <div class="checkbox-group">
-                                <input type="checkbox" id="notifyComments" checked>
-                                <label for="notifyComments">Comments on your work</label>
-                            </div>
-
-                            <button class="btn btn-primary" onclick="updateNotifications()">
-                                <i class="fas fa-save"></i>
-                                Save Preferences
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        </main>
     </div>
 
-    <!-- Workspace Modal -->
-    <div class="workspace-modal" id="workspaceModal">
-        <div class="workspace-header">
-            <h3 class="workspace-title" id="workspaceTitle">Task Workspace</h3>
-            <div class="workspace-tools">
-                <button class="tool-btn" onclick="refreshWorkspace()" title="Refresh">
-                    <i class="fas fa-sync-alt"></i>
-                </button>
-                <button class="tool-btn" onclick="toggleFullscreen()" title="Fullscreen">
-                    <i class="fas fa-expand" id="fullscreenIcon"></i>
-                </button>
-                <button class="tool-btn" onclick="closeWorkspace()" title="Close">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-        </div>
-        
-        <div class="workspace-content">
-            <div class="workspace-iframe-container">
-                <iframe id="workspaceFrame" class="workspace-iframe" src="about:blank"></iframe>
-            </div>
-            
-            <div class="workspace-toolbar" id="workspaceToolbar"></div>
-        </div>
-    </div>
-
-    <!-- Firebase SDKs -->
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-storage-compat.js"></script>
-    
-    <!-- Custom JS -->
-    <script src="js/firebase-config.js"></script>
-    <script src="js/profile.js"></script>
+    <script type="module" src="js/firebase-config.js"></script>
+    <script type="module" src="js/profile.js"></script>
+    <script src="js/theme.js"></script>
 </body>
 </html>
