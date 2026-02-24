@@ -227,44 +227,6 @@
             background-position: right 1rem center;
         }
 
-        /* File Upload */
-        .file-upload {
-            border: 1.5px dashed var(--gray-200);
-            border-radius: 8px;
-            padding: 1.5rem;
-            text-align: center;
-            background: var(--off-white);
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .file-upload:hover {
-            border-color: var(--accent);
-            background: rgba(0, 201, 183, 0.02);
-        }
-
-        .file-upload i {
-            font-size: 2rem;
-            color: var(--accent);
-            margin-bottom: 0.5rem;
-        }
-
-        .file-upload p {
-            color: var(--gray-500);
-            font-size: 0.85rem;
-        }
-
-        .file-upload .file-name {
-            color: var(--accent);
-            font-weight: 500;
-            margin-top: 0.5rem;
-            font-size: 0.85rem;
-        }
-
-        input[type="file"] {
-            display: none;
-        }
-
         /* Preferences Grid */
         .preferences-grid {
             display: grid;
@@ -403,35 +365,6 @@
             color: #1e4b6e;
             border: 1px solid #a7c0e0;
             display: block;
-        }
-
-        /* Debug panel (remove in production) */
-        .debug-panel {
-            margin-top: 2rem;
-            padding: 1rem;
-            background: #f1f5f9;
-            border-radius: 8px;
-            border: 1px solid #e2e8f0;
-            font-family: monospace;
-            font-size: 0.85rem;
-            display: none;
-        }
-
-        .debug-panel.visible {
-            display: block;
-        }
-
-        .debug-title {
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: var(--primary);
-        }
-
-        .debug-content {
-            color: var(--gray-700);
-            white-space: pre-wrap;
-            max-height: 200px;
-            overflow-y: auto;
         }
 
         /* Responsive */
@@ -581,63 +514,6 @@
                 </div>
             </div>
 
-            <!-- Document Upload Section -->
-            <div class="form-section">
-                <div class="section-title">
-                    <div class="section-icon">
-                        <i class="fas fa-folder-open"></i>
-                    </div>
-                    <div>
-                        <h2>Document Verification</h2>
-                        <p>Upload your documents (PDF, JPG, PNG) - Max 5MB each</p>
-                    </div>
-                </div>
-
-                <div class="form-grid">
-                    <!-- CV Upload -->
-                    <div class="form-group full-width">
-                        <label class="form-label">
-                            <i class="fas fa-file-pdf"></i>
-                            Curriculum Vitae (CV) <span class="required">*</span>
-                        </label>
-                        <div class="file-upload" onclick="document.getElementById('cv').click()">
-                            <i class="fas fa-cloud-upload-alt"></i>
-                            <p>Click to upload or drag and drop</p>
-                            <p class="file-name" id="cv-name">No file chosen</p>
-                        </div>
-                        <input type="file" id="cv" accept=".pdf,.doc,.docx" onchange="updateFileName(this, 'cv-name')" required>
-                    </div>
-
-                    <!-- ID Upload -->
-                    <div class="form-group full-width">
-                        <label class="form-label">
-                            <i class="fas fa-id-card"></i>
-                            National ID / Passport <span class="required">*</span>
-                        </label>
-                        <div class="file-upload" onclick="document.getElementById('id').click()">
-                            <i class="fas fa-cloud-upload-alt"></i>
-                            <p>Click to upload or drag and drop</p>
-                            <p class="file-name" id="id-name">No file chosen</p>
-                        </div>
-                        <input type="file" id="id" accept=".pdf,.jpg,.jpeg,.png" onchange="updateFileName(this, 'id-name')" required>
-                    </div>
-
-                    <!-- Academic Certificates -->
-                    <div class="form-group full-width">
-                        <label class="form-label">
-                            <i class="fas fa-graduation-cap"></i>
-                            Academic Certificates <span class="required">*</span>
-                        </label>
-                        <div class="file-upload" onclick="document.getElementById('academic').click()">
-                            <i class="fas fa-cloud-upload-alt"></i>
-                            <p>Click to upload (multiple files)</p>
-                            <p class="file-name" id="academic-name">No files chosen</p>
-                        </div>
-                        <input type="file" id="academic" accept=".pdf,.jpg,.jpeg,.png" multiple onchange="updateFileNames(this, 'academic-name')" required>
-                    </div>
-                </div>
-            </div>
-
             <!-- Preferences Section -->
             <div class="form-section">
                 <div class="section-title">
@@ -699,20 +575,11 @@
                 </div>
             </div>
         </form>
-
-        <!-- Debug Panel (for troubleshooting) -->
-        <div id="debugPanel" class="debug-panel">
-            <div class="debug-title">
-                <i class="fas fa-bug"></i> Debug Information
-            </div>
-            <div id="debugContent" class="debug-content"></div>
-        </div>
     </div>
 
     <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-storage-compat.js"></script>
 
     <script>
         // Firebase configuration
@@ -727,61 +594,28 @@
         };
 
         // Initialize Firebase
-        let app, database, storage;
+        let database;
         
         try {
-            app = firebase.initializeApp(firebaseConfig);
+            const app = firebase.initializeApp(firebaseConfig);
             database = firebase.database();
-            storage = firebase.storage();
             console.log('Firebase initialized successfully');
-            addDebugMessage('Firebase initialized successfully');
         } catch (error) {
             console.error('Firebase initialization error:', error);
-            showError('Firebase configuration error: ' + error.message);
-        }
-
-        // Debug function
-        function addDebugMessage(msg) {
-            const debugPanel = document.getElementById('debugPanel');
-            const debugContent = document.getElementById('debugContent');
-            debugPanel.classList.add('visible');
-            debugContent.innerHTML += new Date().toLocaleTimeString() + ': ' + msg + '<br>';
-        }
-
-        function showError(msg) {
-            const formMessage = document.getElementById('formMessage');
-            formMessage.className = 'form-message error';
-            formMessage.innerHTML = '<i class="fas fa-exclamation-circle"></i> ' + msg;
-            addDebugMessage('ERROR: ' + msg);
         }
 
         // Helper Functions
-        function updateFileName(input, displayId) {
-            const display = document.getElementById(displayId);
-            if (input.files.length > 0) {
-                display.textContent = input.files[0].name;
-                addDebugMessage('File selected: ' + input.files[0].name);
-            } else {
-                display.textContent = 'No file chosen';
-            }
-        }
-
-        function updateFileNames(input, displayId) {
-            const display = document.getElementById(displayId);
-            if (input.files.length > 0) {
-                display.textContent = input.files.length + ' files selected';
-                addDebugMessage(input.files.length + ' files selected');
-            } else {
-                display.textContent = 'No files chosen';
-            }
-        }
-
         function selectPreference(element) {
             document.querySelectorAll('.preference-card').forEach(card => {
                 card.classList.remove('selected');
             });
             element.classList.add('selected');
-            addDebugMessage('Preference selected: ' + element.querySelector('h4').textContent);
+        }
+
+        // Get selected preference value
+        function getSelectedPreference() {
+            const selected = document.querySelector('.preference-card.selected');
+            return selected ? selected.querySelector('h4').textContent : '';
         }
 
         // Generate a unique ID for the submission
@@ -789,19 +623,29 @@
             return 'submission_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
         }
 
-        // Check Firebase Storage rules
-        async function checkStorageRules() {
-            try {
-                const testRef = storage.ref('test/test.txt');
-                const testString = 'test';
-                const blob = new Blob([testString], { type: 'text/plain' });
-                await testRef.put(blob);
-                await testRef.delete();
-                addDebugMessage('Storage rules check: PASSED');
-                return true;
-            } catch (error) {
-                addDebugMessage('Storage rules check: FAILED - ' + error.message);
-                return false;
+        // Validate email format
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        // Validate phone number (basic validation)
+        function isValidPhone(phone) {
+            const phoneRegex = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/;
+            return phoneRegex.test(phone);
+        }
+
+        // Show message to user
+        function showMessage(type, text) {
+            const formMessage = document.getElementById('formMessage');
+            formMessage.className = `form-message ${type}`;
+            formMessage.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle'}"></i> ${text}`;
+            
+            // Auto-hide success messages after 5 seconds
+            if (type === 'success') {
+                setTimeout(() => {
+                    formMessage.style.display = 'none';
+                }, 5000);
             }
         }
 
@@ -810,14 +654,11 @@
             e.preventDefault();
             
             const submitBtn = document.getElementById('submitBtn');
-            const formMessage = document.getElementById('formMessage');
             
             try {
                 // Disable button and show loading
                 submitBtn.disabled = true;
                 submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
-                
-                addDebugMessage('Form submission started');
                 
                 // Get form values
                 const fullName = document.getElementById('fullName').value.trim();
@@ -829,89 +670,40 @@
                 const experience = document.getElementById('experience').value;
                 const rate = document.getElementById('rate').value;
                 const availability = document.getElementById('availability').value;
-                
-                // Get selected preference
-                const selectedPreference = document.querySelector('.preference-card.selected');
-                const projectType = selectedPreference ? 
-                    selectedPreference.querySelector('h4').textContent : 
-                    'Not specified';
-                
-                // Get files
-                const cvFile = document.getElementById('cv').files[0];
-                const idFile = document.getElementById('id').files[0];
-                const academicFiles = document.getElementById('academic').files;
-                
-                addDebugMessage('Form data collected');
+                const projectType = getSelectedPreference();
                 
                 // Validate all required fields
                 if (!fullName || !email || !phone || !location || !category || !skills || !experience || !rate || !availability) {
                     throw new Error('Please fill in all required fields');
                 }
                 
-                if (!cvFile || !idFile || academicFiles.length === 0) {
-                    throw new Error('Please upload all required documents');
+                // Validate email format
+                if (!isValidEmail(email)) {
+                    throw new Error('Please enter a valid email address');
                 }
                 
-                // Check file sizes (max 5MB per file)
-                const maxSize = 5 * 1024 * 1024; // 5MB
-                if (cvFile.size > maxSize) throw new Error('CV file size must be less than 5MB');
-                if (idFile.size > maxSize) throw new Error('ID file size must be less than 5MB');
-                for (let file of academicFiles) {
-                    if (file.size > maxSize) throw new Error('Academic file ' + file.name + ' must be less than 5MB');
+                // Validate phone format
+                if (!isValidPhone(phone)) {
+                    throw new Error('Please enter a valid phone number');
                 }
                 
-                addDebugMessage('File size validation passed');
+                // Validate rate is positive
+                if (rate <= 0) {
+                    throw new Error('Please enter a valid hourly rate');
+                }
                 
-                // Show uploading message
-                formMessage.className = 'form-message info';
-                formMessage.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Uploading documents...';
-                
-                // Generate a unique ID for this submission
-                const submissionId = generateSubmissionId();
-                addDebugMessage('Submission ID: ' + submissionId);
-                
-                // Upload files to Storage
-                const fileUrls = {
-                    cv: '',
-                    id: '',
-                    certificates: []
-                };
-                
-                // Upload CV
-                addDebugMessage('Uploading CV...');
-                const cvExtension = cvFile.name.split('.').pop();
-                const cvPath = `submissions/${submissionId}/cv.${cvExtension}`;
-                const cvRef = storage.ref(cvPath);
-                await cvRef.put(cvFile);
-                fileUrls.cv = await cvRef.getDownloadURL();
-                addDebugMessage('CV uploaded successfully');
-                
-                // Upload ID
-                addDebugMessage('Uploading ID...');
-                const idExtension = idFile.name.split('.').pop();
-                const idPath = `submissions/${submissionId}/id.${idExtension}`;
-                const idRef = storage.ref(idPath);
-                await idRef.put(idFile);
-                fileUrls.id = await idRef.getDownloadURL();
-                addDebugMessage('ID uploaded successfully');
-                
-                // Upload academic certificates
-                addDebugMessage('Uploading ' + academicFiles.length + ' academic certificates...');
-                for (let i = 0; i < academicFiles.length; i++) {
-                    const file = academicFiles[i];
-                    const ext = file.name.split('.').pop();
-                    const certPath = `submissions/${submissionId}/certificate_${i}.${ext}`;
-                    const certRef = storage.ref(certPath);
-                    await certRef.put(file);
-                    const url = await certRef.getDownloadURL();
-                    fileUrls.certificates.push(url);
-                    addDebugMessage('Certificate ' + (i+1) + ' uploaded');
+                // Validate project type is selected
+                if (!projectType) {
+                    throw new Error('Please select your preferred project type');
                 }
                 
                 // Show saving message
-                formMessage.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving your information...';
+                showMessage('info', 'Saving your information...');
                 
-                // Save submission data to Realtime Database
+                // Generate a unique ID for this submission
+                const submissionId = generateSubmissionId();
+                
+                // Prepare submission data
                 const submissionData = {
                     id: submissionId,
                     personal: {
@@ -922,37 +714,28 @@
                     },
                     professional: {
                         category: category,
-                        skills: skills,
+                        skills: skills.split(',').map(skill => skill.trim()),
                         experience: experience,
-                        hourlyRate: rate,
+                        hourlyRate: parseInt(rate),
                         availability: availability,
                         preferredProjectType: projectType
-                    },
-                    files: {
-                        cvUrl: fileUrls.cv,
-                        idUrl: fileUrls.id,
-                        certificatesUrls: fileUrls.certificates
                     },
                     metadata: {
                         submittedAt: new Date().toISOString(),
                         status: 'pending_review',
-                        source: 'web_form'
+                        source: 'web_form',
+                        userAgent: navigator.userAgent
                     }
                 };
                 
-                addDebugMessage('Saving to database...');
-                await database.ref('submissions/' + submissionId).set(submissionData);
-                addDebugMessage('Database save complete');
+                // Save to Firebase Realtime Database
+                await database.ref('applications/' + submissionId).set(submissionData);
                 
                 // Success message
-                formMessage.className = 'form-message success';
-                formMessage.innerHTML = '<i class="fas fa-check-circle"></i> Application submitted successfully! We\'ll review your documents and contact you soon.';
+                showMessage('success', 'Application submitted successfully! We\'ll review your information and contact you soon.');
                 
                 // Reset form
                 document.getElementById('registrationForm').reset();
-                document.getElementById('cv-name').textContent = 'No file chosen';
-                document.getElementById('id-name').textContent = 'No file chosen';
-                document.getElementById('academic-name').textContent = 'No files chosen';
                 
                 // Remove selected class from preference cards
                 document.querySelectorAll('.preference-card').forEach(card => {
@@ -963,22 +746,13 @@
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit Application';
                 
-                addDebugMessage('Form submission complete!');
-                
             } catch (error) {
                 console.error('Submission error:', error);
-                addDebugMessage('ERROR: ' + error.message);
-                formMessage.className = 'form-message error';
-                formMessage.innerHTML = '<i class="fas fa-exclamation-circle"></i> Error: ' + error.message;
+                showMessage('error', error.message);
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit Application';
             }
         });
-
-        // Run storage rules check on page load
-        setTimeout(() => {
-            checkStorageRules();
-        }, 1000);
     </script>
 </body>
 </html>
