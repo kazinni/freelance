@@ -887,4 +887,42 @@ body {
         padding: 0.5rem;
     }
 
-    .workspace
+    .workspace-toolbar {
+        flex-direction: column;
+    }
+
+    .profile-dropdown {
+        width: 280px;
+        right: -10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .task-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .performance-metrics {
+        grid-template-columns: 1fr;
+    }
+
+    .performance-charts {
+        grid-template-columns: 1fr;
+    }
+
+    .documents-categories {
+        justify-content: center;
+    }
+
+    .profile-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .workspace-tools {
+        gap: 0.25rem;
+    }
+
+    .tool-btn {
+        padding: 0.25rem;
+    }
+}
