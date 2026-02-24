@@ -3,35 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KazInni · creative, social & data freelance</title>
-    <!-- Exactly the same font stack as first page: 'Segoe UI', 'Helvetica Neue' etc + Font Awesome -->
+    <title>FlexKazi · professional freelance collective</title>
+    <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* ---------------------------------------------
-             FIRST PAGE EXACT STYLING (KazInni Space)
-        --------------------------------------------- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* ===== LIGHT, PROFESSIONAL THEME ===== */
         :root {
-            --dark-blue: #0a192f;
-            --navy: #112240;
-            --light-blue: #64ffda;
-            --highlight: #1e90ff;
-            --eth-teal: #009688;
-            --text-light: #e6f1ff;
-            --text-muted: #8892b0;
-            --form-bg: rgba(17, 34, 64, 0.85);
+            --pure-white: #ffffff;
+            --off-white: #f8fafc;
+            --gray-50: #f1f5f9;
+            --gray-100: #e2e8f0;
+            --gray-500: #64748b;
+            --gray-700: #334155;
+            --gray-900: #0f172a;
+            --brand-teal: #0f766e;      /* deep teal – professional accent */
+            --brand-teal-light: #14b8a6;
+            --brand-slate: #1e293b;
+            --shadow-card: 0 10px 25px -5px rgba(0,0,0,0.05), 0 8px 10px -6px rgba(0,0,0,0.02);
+            --shadow-hover: 0 20px 30px -10px rgba(15,118,110,0.15);
+            --border-light: #e9edf2;
         }
 
         body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
-            background-color: var(--dark-blue);
-            color: var(--text-light);
-            line-height: 1.6;
-            overflow-x: hidden;
+            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--off-white);
+            color: var(--gray-700);
+            line-height: 1.5;
         }
 
-        /* Background pattern (exact copy) */
+        /* subtle background pattern (very light) */
         .bg-pattern {
             position: fixed;
             top: 0;
@@ -39,211 +45,206 @@
             width: 100%;
             height: 100%;
             z-index: -1;
-            opacity: 0.03;
+            opacity: 0.2;
             background-image: 
-                radial-gradient(circle at 25% 25%, var(--light-blue) 0%, transparent 15%),
-                radial-gradient(circle at 75% 75%, var(--highlight) 0%, transparent 15%);
-            background-size: 100px 100px;
+                radial-gradient(circle at 25% 25%, var(--brand-teal-light) 0%, transparent 15%),
+                radial-gradient(circle at 75% 75%, var(--brand-teal) 0%, transparent 15%);
+            background-size: 120px 120px;
+            pointer-events: none;
         }
 
-        /* Header exactly as first page */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* header – clean and minimal */
         .header {
             text-align: center;
-            padding: 5rem 2rem 4rem;
-            background: linear-gradient(to bottom, rgba(10, 25, 47, 1) 0%, rgba(10, 25, 47, 0.9) 100%);
-            border-bottom: 1px solid rgba(100, 255, 218, 0.2);
+            padding: 4rem 1rem 2.5rem;
+            background: var(--pure-white);
+            border-bottom: 1px solid var(--border-light);
         }
 
         .header-title {
-            font-size: 3.5rem;
-            margin: 0;
+            font-size: 3.2rem;
             font-weight: 600;
-            letter-spacing: 1px;
-            color: var(--light-blue);
-            position: relative;
-            display: inline-block;
+            letter-spacing: -0.02em;
+            color: var(--brand-slate);
+            margin: 0;
         }
 
-        .header-title::after {
-            content: '';
-            position: absolute;
-            bottom: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100px;
-            height: 3px;
-            background: linear-gradient(to right, var(--light-blue), var(--highlight));
+        .header-title span {
+            color: var(--brand-teal);
+            font-weight: 700;
         }
 
         .tagline {
-            font-size: 1.5rem;
-            color: var(--text-muted);
-            margin-top: 2rem;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-            line-height: 1.8;
+            font-size: 1.3rem;
+            color: var(--gray-500);
+            max-width: 650px;
+            margin: 1.2rem auto 0;
+            font-weight: 400;
         }
 
-        /* Main container */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 3rem 2rem;
-        }
-
+        /* section heading */
         .section-title {
             text-align: center;
-            margin-bottom: 4rem;
-            position: relative;
-            font-weight: 500;
+            margin: 3.5rem 0 2.8rem;
             font-size: 2.2rem;
-            color: var(--light-blue);
+            font-weight: 500;
+            color: var(--brand-slate);
+            position: relative;
         }
 
         .section-title::after {
             content: '';
             position: absolute;
-            bottom: -20px;
+            bottom: -12px;
             left: 50%;
             transform: translateX(-50%);
-            width: 80px;
+            width: 70px;
             height: 3px;
-            background: var(--light-blue);
+            background: var(--brand-teal);
+            border-radius: 2px;
         }
 
-        /* Cards grid — 3 cards, each with image */
+        /* cards grid – balanced height, image + compact description */
         .cards-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2.5rem;
-            margin-bottom: 4rem;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2.5rem 0 3rem;
         }
 
         .feature-card {
-            background: rgba(17, 34, 64, 0.7);
-            backdrop-filter: blur(4px);
-            border-radius: 8px;
-            overflow: hidden;  /* for image round corners */
-            border-top: 4px solid var(--light-blue);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            opacity: 0;
-            transform: translateY(20px);
-        }
-
-        .feature-card.visible {
-            opacity: 1;
-            transform: translateY(0);
+            background: var(--pure-white);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow-card);
+            transition: all 0.2s ease;
+            border: 1px solid var(--border-light);
+            display: flex;
+            flex-direction: column;
         }
 
         .feature-card:hover {
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
-            border-top: 4px solid var(--highlight);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--brand-teal-light);
         }
 
-        /* Card image — new */
+        /* fixed aspect image – shorter, crisp */
         .card-img {
             width: 100%;
-            height: 200px;
+            aspect-ratio: 16 / 9;
             object-fit: cover;
             display: block;
-            border-bottom: 2px solid rgba(100, 255, 218, 0.3);
+            border-bottom: 1px solid var(--border-light);
         }
 
         .card-content {
-            padding: 2rem 1.8rem 2rem 1.8rem;
-        }
-
-        .card-icon {
-            font-size: 2rem;
-            color: var(--light-blue);
-            margin-bottom: 1rem;
+            padding: 1.5rem 1.5rem 1.8rem;
+            flex: 1;
         }
 
         .card-title {
-            margin: 0 0 1rem;
-            color: var(--light-blue);
-            font-weight: 500;
-            font-size: 1.8rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--brand-slate);
+            margin-bottom: 0.75rem;
+            line-height: 1.3;
         }
 
-        .skill-pills {
+        /* small, formatted description – sentence case, clean */
+        .card-description {
+            color: var(--gray-500);
+            font-size: 0.95rem;
+            margin-bottom: 1.25rem;
+            line-height: 1.5;
+        }
+
+        /* skill chips – subtle */
+        .skill-chips {
             display: flex;
             flex-wrap: wrap;
-            gap: 0.6rem;
-            margin: 1.2rem 0 1rem;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
         }
 
-        .skill-pill {
-            background: rgba(100, 255, 218, 0.08);
-            border: 1px solid var(--light-blue);
-            color: var(--light-blue);
-            padding: 0.3rem 1rem;
+        .chip {
+            background: var(--gray-50);
+            color: var(--gray-700);
+            font-size: 0.75rem;
+            padding: 0.3rem 0.9rem;
             border-radius: 30px;
-            font-size: 0.8rem;
             font-weight: 500;
+            border: 1px solid var(--gray-100);
         }
 
-        .project-brief {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            border-left: 3px solid var(--highlight);
-            padding-left: 1rem;
-            margin: 1.2rem 0 0.8rem;
-        }
-
+        /* meta row – small, muted */
         .meta-row {
+            margin-top: 1.25rem;
             display: flex;
-            justify-content: space-between;
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            margin-top: 1.2rem;
-            padding-top: 0.8rem;
-            border-top: 1px solid rgba(100,255,218,0.1);
+            align-items: center;
+            gap: 1.2rem;
+            font-size: 0.85rem;
+            color: var(--gray-500);
+            border-top: 1px dashed var(--gray-100);
+            padding-top: 1rem;
         }
 
-        /* Toggle button (identical to first page) */
+        .meta-row i {
+            color: var(--brand-teal);
+            width: 16px;
+            margin-right: 4px;
+        }
+
+        /* toggle button – light version */
         .toggle-form-btn {
             display: block;
-            width: 250px;
-            margin: 3rem auto;
-            padding: 1rem;
-            background: linear-gradient(135deg, var(--light-blue), var(--highlight));
+            width: 260px;
+            margin: 2.5rem auto 2rem;
+            padding: 1rem 1.8rem;
+            background: var(--brand-teal);
             border: none;
-            border-radius: 4px;
-            color: var(--dark-blue);
-            font-size: 1rem;
-            font-weight: 600;
+            border-radius: 60px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 500;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s;
             text-align: center;
+            border: 1px solid var(--brand-teal);
+            box-shadow: 0 4px 8px rgba(15,118,110,0.2);
         }
 
         .toggle-form-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(100, 255, 218, 0.3);
+            background: var(--pure-white);
+            color: var(--brand-teal);
+            border-color: var(--brand-teal);
+            transform: scale(1.02);
         }
 
         .toggle-form-btn i {
             margin-left: 8px;
-            transition: transform 0.3s ease;
+            transition: transform 0.2s;
         }
 
-        /* Form section (styling kept but we disconnect the google sheet) */
+        /* form section – light card */
         .form-section {
-            background: var(--form-bg);
-            border-radius: 10px;
+            background: var(--pure-white);
+            border-radius: 20px;
             padding: 2.5rem;
-            max-width: 600px;
+            max-width: 680px;
             margin: 0 auto 4rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(100, 255, 218, 0.3);
+            box-shadow: var(--shadow-card);
+            border: 1px solid var(--border-light);
             display: none;
             opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.5s ease;
+            transform: translateY(15px);
+            transition: all 0.4s ease;
         }
 
         .form-section.visible {
@@ -253,174 +254,163 @@
         }
 
         .form-title {
-            color: var(--light-blue);
+            color: var(--brand-slate);
             text-align: center;
-            margin-top: 0;
             margin-bottom: 2rem;
             font-size: 1.8rem;
-            position: relative;
+            font-weight: 500;
         }
 
         .form-title::after {
             content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
+            display: block;
             width: 50px;
             height: 2px;
-            background: var(--light-blue);
+            background: var(--brand-teal);
+            margin: 0.6rem auto 0;
         }
 
-        .form-container {
+        .form-grid {
             display: grid;
-            grid-template-columns: 1fr;
-            gap: 1.2rem;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.2rem 1.5rem;
         }
 
         .form-group {
-            margin-bottom: 1rem;
+            margin-bottom: 0.2rem;
         }
 
         .form-label {
             display: block;
-            margin-bottom: 0.4rem;
-            color: var(--text-light);
+            margin-bottom: 0.3rem;
+            color: var(--gray-700);
+            font-weight: 500;
             font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
         }
 
-        .form-control, .form-select {
+        .form-control,
+        .form-select {
             width: 100%;
             padding: 0.7rem 1rem;
-            border: 1px solid rgba(100, 255, 218, 0.2);
-            border-radius: 4px;
-            background-color: rgba(10, 25, 47, 0.6);
-            color: var(--text-light);
-            font-size: 0.9rem;
-            transition: border-color 0.3s ease;
-            font-family: inherit;
+            border: 1px solid var(--gray-100);
+            border-radius: 12px;
+            background-color: var(--off-white);
+            color: var(--gray-900);
+            font-size: 0.95rem;
+            transition: all 0.2s;
         }
 
-        .form-control:focus, .form-select:focus {
+        .form-control:focus,
+        .form-select:focus {
             outline: none;
-            border-color: var(--light-blue);
-            box-shadow: 0 0 0 2px rgba(100, 255, 218, 0.2);
+            border-color: var(--brand-teal);
+            background-color: var(--pure-white);
+            box-shadow: 0 0 0 3px rgba(15,118,110,0.1);
         }
 
         .form-select {
             appearance: none;
-            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2364ffda' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23334155' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
             background-repeat: no-repeat;
             background-position: right 1rem center;
-            background-size: 1em;
         }
 
         .form-btn {
+            grid-column: span 2;
             display: block;
             width: 100%;
             padding: 0.9rem;
-            background: linear-gradient(135deg, var(--light-blue), var(--highlight));
+            background: var(--brand-teal);
             border: none;
-            border-radius: 4px;
-            color: var(--dark-blue);
-            font-size: 1rem;
+            border-radius: 60px;
+            color: white;
+            font-size: 1.1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s;
             margin-top: 1rem;
+            border: 1px solid var(--brand-teal);
         }
 
         .form-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(100, 255, 218, 0.3);
+            background: white;
+            color: var(--brand-teal);
         }
 
         .form-message {
+            grid-column: span 2;
             text-align: center;
             padding: 0.8rem;
-            margin-top: 1.5rem;
-            border-radius: 4px;
+            border-radius: 40px;
             font-weight: 500;
             font-size: 0.9rem;
         }
 
         .form-message.success {
-            background-color: rgba(40, 167, 69, 0.2);
-            color: #28a745;
-            border: 1px solid rgba(40, 167, 69, 0.5);
+            background: #e6f7f0;
+            color: #0f766e;
+            border: 1px solid #a7e0cf;
         }
 
         .form-message.error {
-            background-color: rgba(220, 53, 69, 0.2);
-            color: #dc3545;
-            border: 1px solid rgba(220, 53, 69, 0.5);
+            background: #fee9e7;
+            color: #b91c1c;
+            border: 1px solid #fbb9b9;
         }
 
-        /* Footer */
         .footer {
             text-align: center;
-            padding: 3rem 0;
-            background: rgba(10, 25, 47, 0.9);
-            margin-top: 5rem;
-            border-top: 1px solid rgba(100, 255, 218, 0.1);
+            padding: 3rem 0 2rem;
+            background: var(--pure-white);
+            margin-top: 4rem;
+            border-top: 1px solid var(--border-light);
+            color: var(--gray-500);
         }
 
         .footer-text {
-            color: var(--text-muted);
-            max-width: 600px;
+            max-width: 700px;
             margin: 0 auto;
-            line-height: 1.8;
+            font-size: 0.95rem;
         }
 
-        /* animation pulse (optional) */
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(100, 255, 218, 0.4); }
-            70% { box-shadow: 0 0 0 15px rgba(100, 255, 218, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(100, 255, 218, 0); }
+        /* small adjustments */
+        @media (max-width: 640px) {
+            .form-grid { grid-template-columns: 1fr; }
+            .form-btn { grid-column: span 1; }
+            .header-title { font-size: 2.6rem; }
+            .section-title { font-size: 1.9rem; }
         }
-
-        .pulse {
-            animation: pulse 2s infinite;
-        }
-
-        @media (max-width: 768px) {
-            .header-title { font-size: 2.5rem; }
-            .tagline { font-size: 1.2rem; }
-            .cards-grid { grid-template-columns: 1fr; }
-        }
-
-        /* remove any E‑HUB references */
     </style>
 </head>
 <body>
-    <!-- Background Pattern (first page signature) -->
     <div class="bg-pattern"></div>
 
-    <!-- Header KazInni (no E-HUB) -->
+    <!-- Header: FlexKazi (professional, light) -->
     <header class="header">
-        <h1 class="header-title">KazInni</h1>
-        <p class="tagline">Professional freelance studio — design, social, data</p>
+        <h1 class="header-title">Flex<span>Kazi</span></h1>
+        <p class="tagline">Professional freelance opportunities — design, social media, data</p>
     </header>
 
-    <div class="container">
-        <!-- Section title only for the three categories -->
-        <h2 class="section-title">featured project categories</h2>
+    <main class="container">
+        <!-- Section title (sentence case) -->
+        <h2 class="section-title">Featured project categories</h2>
 
-        <!-- Cards grid - exactly three cards with images -->
+        <!-- Three cards with images + short description + chips -->
         <div class="cards-grid">
-            <!-- 1. Advert Generation / design -->
+            <!-- Card 1: Advert generation -->
             <div class="feature-card">
-                <img class="card-img" src="https://images.unsplash.com/photo-1626785774573-4b799315345d?q=80&w=800&auto=format&fit=crop" alt="graphic design workspace" loading="lazy">
+                <img class="card-img" src="https://images.unsplash.com/photo-1626785774573-4b799315345d?w=800&auto=format&fit=crop" alt="Graphic design workspace" loading="lazy">
                 <div class="card-content">
-                    <div class="card-icon"><i class="fa-solid fa-pen-nib"></i></div>
                     <h3 class="card-title">Advert generation</h3>
-                    <div class="skill-pills">
-                        <span class="skill-pill">Canva</span>
-                        <span class="skill-pill">Photoshop</span>
-                        <span class="skill-pill">Premiere Pro</span>
-                        <span class="skill-pill">Illustrator</span>
+                    <p class="card-description">Posters, video ads, and marketing materials. Full creative suite.</p>
+                    <div class="skill-chips">
+                        <span class="chip">Canva</span>
+                        <span class="chip">Photoshop</span>
+                        <span class="chip">Premiere Pro</span>
+                        <span class="chip">Illustrator</span>
                     </div>
-                    <p class="project-brief">Posters, video ads, social creatives, packaging mockups. End-to-end design for brands.</p>
                     <div class="meta-row">
                         <span><i class="fa-regular fa-clock"></i> 10–25 hrs/wk</span>
                         <span><i class="fa-solid fa-tag"></i> KSh 500–1500/h</span>
@@ -428,19 +418,18 @@
                 </div>
             </div>
 
-            <!-- 2. Social Media Management -->
+            <!-- Card 2: Social media management -->
             <div class="feature-card">
-                <img class="card-img" src="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?q=80&w=800&auto=format&fit=crop" alt="social media dashboard" loading="lazy">
+                <img class="card-img" src="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=800&auto=format&fit=crop" alt="Social media dashboard" loading="lazy">
                 <div class="card-content">
-                    <div class="card-icon"><i class="fa-solid fa-hashtag"></i></div>
-                    <h3 class="card-title">social media management</h3>
-                    <div class="skill-pills">
-                        <span class="skill-pill">content creation</span>
-                        <span class="skill-pill">community replies</span>
-                        <span class="skill-pill">analytics</span>
-                        <span class="skill-pill">scheduling</span>
+                    <h3 class="card-title">Social media management</h3>
+                    <p class="card-description">Content creation, replies, scheduling, and community interaction.</p>
+                    <div class="skill-chips">
+                        <span class="chip">Content creation</span>
+                        <span class="chip">Community replies</span>
+                        <span class="chip">Analytics</span>
+                        <span class="chip">Scheduling</span>
                     </div>
-                    <p class="project-brief">Post management, user interaction, content calendars. Grow engagement across IG, TikTok, LinkedIn.</p>
                     <div class="meta-row">
                         <span><i class="fa-regular fa-calendar"></i> 5–20 hrs/wk</span>
                         <span><i class="fa-solid fa-tag"></i> KSh 350–900/h</span>
@@ -448,19 +437,18 @@
                 </div>
             </div>
 
-            <!-- 3. Data entry & office tasks -->
+            <!-- Card 3: Data entry & tools -->
             <div class="feature-card">
-                <img class="card-img" src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop" alt="excel spreadsheet" loading="lazy">
+                <img class="card-img" src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&fit=crop" alt="Spreadsheet and laptop" loading="lazy">
                 <div class="card-content">
-                    <div class="card-icon"><i class="fa-solid fa-table"></i></div>
-                    <h3 class="card-title">data entry & tools</h3>
-                    <div class="skill-pills">
-                        <span class="skill-pill">Excel / Sheets</span>
-                        <span class="skill-pill">MS office</span>
-                        <span class="skill-pill">Google workspace</span>
-                        <span class="skill-pill">CRM input</span>
+                    <h3 class="card-title">Data entry & tools</h3>
+                    <p class="card-description">Spreadsheets, digitisation, CRM input, and office tasks.</p>
+                    <div class="skill-chips">
+                        <span class="chip">Excel / Sheets</span>
+                        <span class="chip">MS Office</span>
+                        <span class="chip">Google Workspace</span>
+                        <span class="chip">CRM input</span>
                     </div>
-                    <p class="project-brief">Spreadsheet cleanup, data migration, document digitisation, lead list enrichment.</p>
                     <div class="meta-row">
                         <span><i class="fa-regular fa-keyboard"></i> 15–30 hrs/wk</span>
                         <span><i class="fa-solid fa-tag"></i> KSh 250–500/h</span>
@@ -469,93 +457,85 @@
             </div>
         </div>
 
-        <!-- simple separator (no E-HUB) -->
-        <div style="text-align: center; margin: 2rem 0 1rem;">
-            <span style="background: rgba(100,255,218,0.1); padding: 0.5rem 2rem; border-radius: 40px; color: var(--light-blue);">
-                <i class="fa-regular fa-circle-check"></i> vetted clients · instant payment · remote
-            </span>
+        <!-- subtle stats / trust row -->
+        <div style="display: flex; justify-content: center; gap: 2.5rem; flex-wrap: wrap; margin: 2rem 0 1.5rem;">
+            <span style="color: var(--gray-500);"><i class="fa-regular fa-circle-check" style="color: var(--brand-teal);"></i> 200+ active clients</span>
+            <span style="color: var(--gray-500);"><i class="fa-regular fa-clock" style="color: var(--brand-teal);"></i> Instant M‑Pesa payout</span>
+            <span style="color: var(--gray-500);"><i class="fa-regular fa-star" style="color: var(--brand-teal);"></i> Vetted opportunities</span>
         </div>
 
-        <!-- Toggle button exactly like first page (but text changed) -->
-        <button id="toggleFormBtn" class="toggle-form-btn collapsed">
-            join KazInni <i class="fas fa-chevron-down"></i>
+        <!-- Toggle button (clean) -->
+        <button id="toggleFormBtn" class="toggle-form-btn">
+            Join FlexKazi <i class="fas fa-chevron-down"></i>
         </button>
 
-        <!-- Registration form – Google Sheet integration REMOVED (firebase ready) -->
+        <!-- Registration form (Firebase ready, no google sheet) -->
         <div id="registrationFormSection" class="form-section">
-            <h2 class="form-title">become a KazInni freelancer</h2>
-            <form id="registrationForm" class="form-container">
-                <div class="form-group">
-                    <label for="fullName" class="form-label">full name</label>
-                    <input type="text" id="fullName" class="form-control" placeholder="e.g. Mary Wanjiku" required>
+            <h3 class="form-title">Apply as freelancer</h3>
+            <form id="registrationForm">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label" for="fullName">Full name</label>
+                        <input type="text" id="fullName" class="form-control" placeholder="e.g. Mary Wanjiku" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="email">Email address</label>
+                        <input type="email" id="email" class="form-control" placeholder="you@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="category">Primary category</label>
+                        <select id="category" class="form-select" required>
+                            <option value="" disabled selected>– select –</option>
+                            <option value="advert">Advert / design</option>
+                            <option value="social">Social media</option>
+                            <option value="data">Data entry</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="skills">Key skills (comma)</label>
+                        <input type="text" id="skills" class="form-control" placeholder="Canva, Excel, ..." required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="availability">Weekly availability</label>
+                        <select id="availability" class="form-select" required>
+                            <option value="" disabled selected>– select –</option>
+                            <option value="5-10">5–10 hours</option>
+                            <option value="10-20">10–20 hours</option>
+                            <option value="20+">20+ hours</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="location">Location</label>
+                        <input type="text" id="location" class="form-control" placeholder="Nairobi / remote" required>
+                    </div>
+                    <button type="submit" class="form-btn" id="submitBtn">Submit application</button>
+                    <div id="formMessage" class="form-message" style="display: none;"></div>
                 </div>
-
-                <div class="form-group">
-                    <label for="email" class="form-label">email address</label>
-                    <input type="email" id="email" class="form-control" placeholder="you@example.com" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="category" class="form-label">primary category</label>
-                    <select id="category" class="form-select" required>
-                        <option value="" disabled selected>– select one –</option>
-                        <option value="advert">Advert / graphic design</option>
-                        <option value="social">Social media management</option>
-                        <option value="data">Data entry / office</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="skills" class="form-label">key skills (comma separated)</label>
-                    <input type="text" id="skills" class="form-control" placeholder="e.g. Canva, Excel, Instagram" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="availability" class="form-label">weekly availability</label>
-                    <select id="availability" class="form-select" required>
-                        <option value="" disabled selected>– select –</option>
-                        <option value="5-10">5–10 hours</option>
-                        <option value="10-20">10–20 hours</option>
-                        <option value="20+">20+ hours</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="location" class="form-label">location (city / remote)</label>
-                    <input type="text" id="location" class="form-control" placeholder="Nairobi, remote..." required>
-                </div>
-
-                <button type="submit" class="form-btn" id="submitBtn">submit application</button>
-                <div id="formMessage" class="form-message" style="display: none;"></div>
             </form>
-            <p style="text-align: center; margin-top: 1.5rem; font-size: 0.85rem; color: var(--text-muted);">
-                <i class="fa-regular fa-bell"></i> we'll notify you as soon as projects match<br> (firebase integration ready)
+            <p style="font-size: 0.85rem; text-align: center; margin-top: 1.2rem; color: var(--gray-500);">
+                <i class="fa-regular fa-bell"></i> Firebase integration ready — we’ll notify you when projects match.
             </p>
         </div>
-    </div>
+    </main>
 
-    <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <p class="footer-text">KazInni — creative, social & data freelance, built for professionals.</p>
-            <p class="footer-text" style="margin-top: 2rem;">© <span id="currentYear"></span> KazInni. All rights reserved.</p>
+            <p class="footer-text">FlexKazi — professional freelance collective. Design, social media, data entry.</p>
+            <p style="margin-top: 1.8rem;">© <span id="currentYear"></span> FlexKazi. All rights reserved.</p>
         </div>
     </footer>
 
     <script>
-        // display current year in footer
+        // current year
         document.getElementById('currentYear').textContent = new Date().getFullYear();
 
-        // Toggle form visibility (first page behaviour)
+        // toggle form (smooth)
         const toggleBtn = document.getElementById('toggleFormBtn');
         const formSection = document.getElementById('registrationFormSection');
+        const icon = toggleBtn.querySelector('i');
 
-        toggleBtn.addEventListener('click', function() {
-            this.classList.toggle('expanded');
-            this.classList.toggle('collapsed');
+        toggleBtn.addEventListener('click', () => {
             formSection.classList.toggle('visible');
-            // update chevron
-            const icon = this.querySelector('i');
             if (formSection.classList.contains('visible')) {
                 icon.classList.remove('fa-chevron-down');
                 icon.classList.add('fa-chevron-up');
@@ -565,29 +545,15 @@
             }
         });
 
-        // scroll animation for cards
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, { threshold: 0.1 });
-
-        document.querySelectorAll('.feature-card').forEach(card => observer.observe(card));
-
-        // -----------------------------------------------------------------
-        // FORM HANDLING - Google Sheet integration FULLY REMOVED
-        // Now it's a placeholder for firebase. Shows success message locally.
-        // -----------------------------------------------------------------
+        // simple form handler (no google sheet – placeholder for firebase)
         const form = document.getElementById('registrationForm');
         const submitBtn = document.getElementById('submitBtn');
         const msgDiv = document.getElementById('formMessage');
 
-        form.addEventListener('submit', function(e) {
+        form.addEventListener('submit', (e) => {
             e.preventDefault();
 
-            // simple validation
+            // basic validation
             const name = document.getElementById('fullName').value.trim();
             const email = document.getElementById('email').value.trim();
             if (!name || !email) {
@@ -597,26 +563,42 @@
                 return;
             }
 
-            // disable button during fake submission
             submitBtn.disabled = true;
-            submitBtn.textContent = 'processing ...';
+            submitBtn.textContent = 'Submitting...';
 
-            // simulate successful form submission (ready for firebase)
+            // simulate firebase submission (replace with actual firebase later)
             setTimeout(() => {
-                // success message (no google sheet)
-                msgDiv.innerHTML = '<i class="fa-regular fa-circle-check"></i> Thanks! You’re registered. We’ll contact you when new projects arrive.';
+                msgDiv.innerHTML = '<i class="fa-regular fa-circle-check"></i> Application received! We’ll contact you soon.';
                 msgDiv.className = 'form-message success';
                 msgDiv.style.display = 'block';
 
                 // reset form
                 form.reset();
-
-                // re-enable
                 submitBtn.disabled = false;
-                submitBtn.textContent = 'submit application';
+                submitBtn.textContent = 'Submit application';
 
-                // optional: hide after 6 seconds? no, keep visible
+                // hide message after 5 seconds (optional)
+                setTimeout(() => {
+                    msgDiv.style.display = 'none';
+                }, 5000);
             }, 800);
+        });
+
+        // (optional) card entrance animation – subtle
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.feature-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(12px)';
+            card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            observer.observe(card);
         });
     </script>
 </body>
