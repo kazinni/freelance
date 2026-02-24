@@ -445,12 +445,12 @@
                         </label>
                         <select id="location" class="form-select" required>
                             <option value="">Select your city</option>
-                            <option value="nairobi">Nairobi</option>
-                            <option value="mombasa">Mombasa</option>
-                            <option value="kisumu">Kisumu</option>
-                            <option value="nakuru">Nakuru</option>
-                            <option value="eldoret">Eldoret</option>
-                            <option value="other">Other</option>
+                            <option value="Nairobi">Nairobi</option>
+                            <option value="Mombasa">Mombasa</option>
+                            <option value="Kisumu">Kisumu</option>
+                            <option value="Nakuru">Nakuru</option>
+                            <option value="Eldoret">Eldoret</option>
+                            <option value="Other">Other</option>
                         </select>
                     </div>
                 </div>
@@ -476,9 +476,9 @@
                         </label>
                         <select id="category" class="form-select" required>
                             <option value="">Select your main expertise</option>
-                            <option value="advert">Advert Generation (Design, Video, Posters)</option>
-                            <option value="social">Social Media Management</option>
-                            <option value="data">Data Entry & Office Tools</option>
+                            <option value="Advert Generation">Advert Generation (Design, Video, Posters)</option>
+                            <option value="Social Media Management">Social Media Management</option>
+                            <option value="Data Entry">Data Entry & Office Tools</option>
                         </select>
                     </div>
 
@@ -527,17 +527,17 @@
                 </div>
 
                 <div class="preferences-grid" id="preferenceGroup">
-                    <div class="preference-card" onclick="selectPreference(this)">
+                    <div class="preference-card" onclick="selectPreference(this)" data-value="Project-based">
                         <i class="fas fa-clock"></i>
                         <h4>Project-based</h4>
                         <p>Fixed-price projects</p>
                     </div>
-                    <div class="preference-card" onclick="selectPreference(this)">
+                    <div class="preference-card" onclick="selectPreference(this)" data-value="Hourly">
                         <i class="fas fa-hourglass-half"></i>
                         <h4>Hourly</h4>
                         <p>Pay by the hour</p>
                     </div>
-                    <div class="preference-card" onclick="selectPreference(this)">
+                    <div class="preference-card" onclick="selectPreference(this)" data-value="Retainer">
                         <i class="fas fa-calendar-check"></i>
                         <h4>Retainer</h4>
                         <p>Ongoing monthly work</p>
@@ -602,6 +602,7 @@
             console.log('Firebase initialized successfully');
         } catch (error) {
             console.error('Firebase initialization error:', error);
+            showMessage('error', 'Failed to initialize application. Please refresh the page.');
         }
 
         // Helper Functions
@@ -615,12 +616,12 @@
         // Get selected preference value
         function getSelectedPreference() {
             const selected = document.querySelector('.preference-card.selected');
-            return selected ? selected.querySelector('h4').textContent : '';
+            return selected ? selected.getAttribute('data-value') : '';
         }
 
         // Generate a unique ID for the submission
         function generateSubmissionId() {
-            return 'submission_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+            return Date.now() + '_' + Math.random().toString(36).substr(2, 9);
         }
 
         // Validate email format
@@ -646,7 +647,29 @@
                 setTimeout(() => {
                     formMessage.style.display = 'none';
                 }, 5000);
+            } else {
+                formMessage.style.display = 'block';
             }
+        }
+
+        // Test database connection
+        function testDatabaseConnection() {
+            if (!database) {
+                showMessage('error', 'Database not initialized');
+                return false;
+            }
+            
+            // Try to write a test record to check permissions
+            const testRef = database.ref('.info/connected');
+            testRef.on('value', (snap) => {
+                if (snap.val() === true) {
+                    console.log('Connected to Firebase');
+                } else {
+                    console.log('Not connected to Firebase');
+                }
+            });
+            
+            return true;
         }
 
         // Form Submission
@@ -654,6 +677,7 @@
             e.preventDefault();
             
             const submitBtn = document.getElementById('submitBtn');
+            const formMessage = document.getElementById('formMessage');
             
             try {
                 // Disable button and show loading
@@ -673,8 +697,23 @@
                 const projectType = getSelectedPreference();
                 
                 // Validate all required fields
-                if (!fullName || !email || !phone || !location || !category || !skills || !experience || !rate || !availability) {
-                    throw new Error('Please fill in all required fields');
+                const validations = [
+                    { condition: fullName, message: 'Please enter your full name' },
+                    { condition: email, message: 'Please enter your email' },
+                    { condition: phone, message: 'Please enter your phone number' },
+                    { condition: location, message: 'Please select your location' },
+                    { condition: category, message: 'Please select your primary category' },
+                    { condition: skills, message: 'Please enter your skills' },
+                    { condition: experience, message: 'Please select your experience level' },
+                    { condition: rate, message: 'Please enter your hourly rate' },
+                    { condition: availability, message: 'Please select your availability' },
+                    { condition: projectType, message: 'Please select your preferred project type' }
+                ];
+                
+                for (let v of validations) {
+                    if (!v.condition) {
+                        throw new Error(v.message);
+                    }
                 }
                 
                 // Validate email format
@@ -692,44 +731,34 @@
                     throw new Error('Please enter a valid hourly rate');
                 }
                 
-                // Validate project type is selected
-                if (!projectType) {
-                    throw new Error('Please select your preferred project type');
-                }
-                
                 // Show saving message
                 showMessage('info', 'Saving your information...');
                 
                 // Generate a unique ID for this submission
                 const submissionId = generateSubmissionId();
                 
-                // Prepare submission data
+                // Prepare submission data - matching your database rules structure
                 const submissionData = {
-                    id: submissionId,
-                    personal: {
-                        fullName: fullName,
-                        email: email,
-                        phone: phone,
-                        location: location
-                    },
-                    professional: {
-                        category: category,
-                        skills: skills.split(',').map(skill => skill.trim()),
-                        experience: experience,
-                        hourlyRate: parseInt(rate),
-                        availability: availability,
-                        preferredProjectType: projectType
-                    },
-                    metadata: {
-                        submittedAt: new Date().toISOString(),
-                        status: 'pending_review',
-                        source: 'web_form',
-                        userAgent: navigator.userAgent
-                    }
+                    fullName: fullName,
+                    email: email,
+                    phone: phone,
+                    location: location,
+                    category: category,
+                    skills: skills, // Keep as string for database validation
+                    experience: experience,
+                    hourlyRate: parseInt(rate),
+                    availability: availability,
+                    preferredProjectType: projectType,
+                    submittedAt: new Date().toISOString(),
+                    status: 'pending_review'
                 };
                 
-                // Save to Firebase Realtime Database
-                await database.ref('applications/' + submissionId).set(submissionData);
+                console.log('Attempting to save to Firebase:', submissionId);
+                
+                // Save to Firebase Realtime Database under 'submissions' (matching your rules)
+                await database.ref('submissions/' + submissionId).set(submissionData);
+                
+                console.log('Save successful!');
                 
                 // Success message
                 showMessage('success', 'Application submitted successfully! We\'ll review your information and contact you soon.');
@@ -742,17 +771,24 @@
                     card.classList.remove('selected');
                 });
                 
-                // Re-enable button but change text
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit Application';
-                
             } catch (error) {
                 console.error('Submission error:', error);
-                showMessage('error', error.message);
+                
+                // Check for permission denied error
+                if (error.message.includes('permission_denied') || error.code === 'PERMISSION_DENIED') {
+                    showMessage('error', 'Permission denied. Please check Firebase database rules.');
+                } else {
+                    showMessage('error', error.message || 'An error occurred during submission');
+                }
+            } finally {
+                // Re-enable button
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit Application';
             }
         });
+
+        // Test connection on page load
+        setTimeout(testDatabaseConnection, 1000);
     </script>
 </body>
 </html>
