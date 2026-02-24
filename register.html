@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Join FlexKazi · Create Your Professional Account</title>
-    <!-- Font Awesome 6 -->
+    <!-- Font Awesome 6 (Free version) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -32,7 +32,6 @@
             --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
             --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
             --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-            --gradient: linear-gradient(135deg, #0a2540 0%, #1a3650 100%);
         }
 
         body {
@@ -75,40 +74,22 @@
             color: var(--accent);
         }
 
-        .progress-indicator {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .step-indicator {
+        .back-link {
             display: flex;
             align-items: center;
             gap: 0.5rem;
-        }
-
-        .step-dot {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background: var(--gray-100);
             color: var(--gray-500);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover {
+            color: var(--accent);
+        }
+
+        .back-link i {
             font-size: 0.9rem;
-        }
-
-        .step-dot.active {
-            background: var(--accent);
-            color: var(--white);
-        }
-
-        .step-line {
-            width: 50px;
-            height: 2px;
-            background: var(--gray-100);
         }
 
         /* Main Container */
@@ -412,6 +393,13 @@
             display: block;
         }
 
+        .form-message.info {
+            background: #e6f0f7;
+            color: #1e4b6e;
+            border: 1px solid #a7c0e0;
+            display: block;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .form-grid {
@@ -423,12 +411,6 @@
             .preferences-grid {
                 grid-template-columns: 1fr;
             }
-            .step-line {
-                width: 20px;
-            }
-            .progress-indicator {
-                display: none;
-            }
         }
     </style>
 </head>
@@ -437,16 +419,10 @@
     <nav class="navbar">
         <div class="nav-container">
             <a href="index.html" class="logo">Flex<span>Kazi</span></a>
-            <div class="progress-indicator">
-                <div class="step-indicator">
-                    <span class="step-dot active">1</span>
-                    <span class="step-line"></span>
-                    <span class="step-dot">2</span>
-                    <span class="step-line"></span>
-                    <span class="step-dot">3</span>
-                </div>
-                <span style="color: var(--gray-500); font-size: 0.85rem;">Profile · Documents · Preferences</span>
-            </div>
+            <a href="index.html" class="back-link">
+                <i class="fas fa-arrow-left"></i>
+                <span>Back to Home</span>
+            </a>
         </div>
     </nav>
 
@@ -462,7 +438,7 @@
             <div class="form-section">
                 <div class="section-title">
                     <div class="section-icon">
-                        <i class="fa-regular fa-user"></i>
+                        <i class="fas fa-user"></i>
                     </div>
                     <div>
                         <h2>Personal Information</h2>
@@ -473,7 +449,7 @@
                 <div class="form-grid">
                     <div class="form-group">
                         <label class="form-label">
-                            <i class="fa-regular fa-circle-user"></i>
+                            <i class="fas fa-user-circle"></i>
                             Full Name <span class="required">*</span>
                         </label>
                         <input type="text" id="fullName" class="form-control" placeholder="e.g., Mary Wanjiku" required>
@@ -481,7 +457,7 @@
 
                     <div class="form-group">
                         <label class="form-label">
-                            <i class="fa-regular fa-envelope"></i>
+                            <i class="fas fa-envelope"></i>
                             Email Address <span class="required">*</span>
                         </label>
                         <input type="email" id="email" class="form-control" placeholder="you@example.com" required>
@@ -489,7 +465,7 @@
 
                     <div class="form-group">
                         <label class="form-label">
-                            <i class="fa-regular fa-phone"></i>
+                            <i class="fas fa-phone-alt"></i>
                             Phone Number <span class="required">*</span>
                         </label>
                         <input type="tel" id="phone" class="form-control" placeholder="+254 700 000 000" required>
@@ -497,7 +473,7 @@
 
                     <div class="form-group">
                         <label class="form-label">
-                            <i class="fa-regular fa-location-dot"></i>
+                            <i class="fas fa-map-marker-alt"></i>
                             Location <span class="required">*</span>
                         </label>
                         <select id="location" class="form-select" required>
@@ -517,7 +493,7 @@
             <div class="form-section">
                 <div class="section-title">
                     <div class="section-icon">
-                        <i class="fa-regular fa-briefcase"></i>
+                        <i class="fas fa-briefcase"></i>
                     </div>
                     <div>
                         <h2>Professional Details</h2>
@@ -528,7 +504,7 @@
                 <div class="form-grid">
                     <div class="form-group full-width">
                         <label class="form-label">
-                            <i class="fa-regular fa-star"></i>
+                            <i class="fas fa-star"></i>
                             Primary Category <span class="required">*</span>
                         </label>
                         <select id="category" class="form-select" required>
@@ -541,7 +517,7 @@
 
                     <div class="form-group full-width">
                         <label class="form-label">
-                            <i class="fa-regular fa-tags"></i>
+                            <i class="fas fa-tags"></i>
                             Skills (comma separated) <span class="required">*</span>
                         </label>
                         <input type="text" id="skills" class="form-control" placeholder="e.g., Canva, Photoshop, Excel" required>
@@ -549,21 +525,21 @@
 
                     <div class="form-group">
                         <label class="form-label">
-                            <i class="fa-regular fa-clock"></i>
+                            <i class="fas fa-clock"></i>
                             Experience <span class="required">*</span>
                         </label>
                         <select id="experience" class="form-select" required>
                             <option value="">Select level</option>
-                            <option value="0_to_1_years">0-1 years (Beginner)</option>
-                            <option value="1_to_3_years">1-3 years (Intermediate)</option>
-                            <option value="3_to_5_years">3-5 years (Advanced)</option>
-                            <option value="5_plus_years">5+ years (Expert)</option>
+                            <option value="0-1 years">0-1 years (Beginner)</option>
+                            <option value="1-3 years">1-3 years (Intermediate)</option>
+                            <option value="3-5 years">3-5 years (Advanced)</option>
+                            <option value="5+ years">5+ years (Expert)</option>
                         </select>
                     </div>
 
                     <div class="form-group">
                         <label class="form-label">
-                            <i class="fa-regular fa-money-bill"></i>
+                            <i class="fas fa-money-bill-wave"></i>
                             Hourly Rate (KSh) <span class="required">*</span>
                         </label>
                         <input type="number" id="rate" class="form-control" placeholder="e.g., 500" min="0" required>
@@ -575,7 +551,7 @@
             <div class="form-section">
                 <div class="section-title">
                     <div class="section-icon">
-                        <i class="fa-regular fa-folder"></i>
+                        <i class="fas fa-folder-open"></i>
                     </div>
                     <div>
                         <h2>Document Verification</h2>
@@ -587,11 +563,11 @@
                     <!-- CV Upload -->
                     <div class="form-group full-width">
                         <label class="form-label">
-                            <i class="fa-regular fa-file"></i>
+                            <i class="fas fa-file-pdf"></i>
                             Curriculum Vitae (CV) <span class="required">*</span>
                         </label>
                         <div class="file-upload" onclick="document.getElementById('cv').click()">
-                            <i class="fa-regular fa-cloud-upload"></i>
+                            <i class="fas fa-cloud-upload-alt"></i>
                             <p>Click to upload or drag and drop</p>
                             <p class="file-name" id="cv-name">No file chosen</p>
                         </div>
@@ -601,11 +577,11 @@
                     <!-- ID Upload -->
                     <div class="form-group full-width">
                         <label class="form-label">
-                            <i class="fa-regular fa-id-card"></i>
+                            <i class="fas fa-id-card"></i>
                             National ID / Passport <span class="required">*</span>
                         </label>
                         <div class="file-upload" onclick="document.getElementById('id').click()">
-                            <i class="fa-regular fa-cloud-upload"></i>
+                            <i class="fas fa-cloud-upload-alt"></i>
                             <p>Click to upload or drag and drop</p>
                             <p class="file-name" id="id-name">No file chosen</p>
                         </div>
@@ -615,11 +591,11 @@
                     <!-- Academic Certificates -->
                     <div class="form-group full-width">
                         <label class="form-label">
-                            <i class="fa-regular fa-graduation-cap"></i>
+                            <i class="fas fa-graduation-cap"></i>
                             Academic Certificates <span class="required">*</span>
                         </label>
                         <div class="file-upload" onclick="document.getElementById('academic').click()">
-                            <i class="fa-regular fa-cloud-upload"></i>
+                            <i class="fas fa-cloud-upload-alt"></i>
                             <p>Click to upload (multiple files)</p>
                             <p class="file-name" id="academic-name">No files chosen</p>
                         </div>
@@ -632,7 +608,7 @@
             <div class="form-section">
                 <div class="section-title">
                     <div class="section-icon">
-                        <i class="fa-regular fa-sliders"></i>
+                        <i class="fas fa-sliders-h"></i>
                     </div>
                     <div>
                         <h2>Work Preferences</h2>
@@ -642,17 +618,17 @@
 
                 <div class="preferences-grid" id="preferenceGroup">
                     <div class="preference-card" onclick="selectPreference(this)">
-                        <i class="fa-regular fa-clock"></i>
+                        <i class="fas fa-clock"></i>
                         <h4>Project-based</h4>
                         <p>Fixed-price projects</p>
                     </div>
                     <div class="preference-card" onclick="selectPreference(this)">
-                        <i class="fa-regular fa-calendar-clock"></i>
+                        <i class="fas fa-hourglass-half"></i>
                         <h4>Hourly</h4>
                         <p>Pay by the hour</p>
                     </div>
                     <div class="preference-card" onclick="selectPreference(this)">
-                        <i class="fa-regular fa-calendar-check"></i>
+                        <i class="fas fa-calendar-check"></i>
                         <h4>Retainer</h4>
                         <p>Ongoing monthly work</p>
                     </div>
@@ -662,10 +638,10 @@
                     <label class="form-label">Weekly Availability <span class="required">*</span></label>
                     <select id="availability" class="form-select" required>
                         <option value="">Select availability</option>
-                        <option value="5_to_10">5-10 hours per week</option>
-                        <option value="10_to_20">10-20 hours per week</option>
-                        <option value="20_to_30">20-30 hours per week</option>
-                        <option value="30_plus">30+ hours per week</option>
+                        <option value="5-10 hours">5-10 hours per week</option>
+                        <option value="10-20 hours">10-20 hours per week</option>
+                        <option value="20-30 hours">20-30 hours per week</option>
+                        <option value="30+ hours">30+ hours per week</option>
                     </select>
                 </div>
             </div>
@@ -675,13 +651,17 @@
 
             <!-- Form Actions -->
             <div class="form-actions">
-                <a href="index.html" class="btn-secondary">← Back</a>
+                <a href="index.html" class="btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Back
+                </a>
                 <div style="display: flex; gap: 1rem; align-items: center;">
                     <span class="form-note">
-                        <i class="fa-regular fa-shield-check"></i>
+                        <i class="fas fa-shield-alt"></i>
                         Your data is secure
                     </span>
-                    <button type="submit" class="btn-primary" id="submitBtn">Create Account →</button>
+                    <button type="submit" class="btn-primary" id="submitBtn">
+                        <i class="fas fa-paper-plane"></i> Submit Application
+                    </button>
                 </div>
             </div>
         </form>
@@ -689,7 +669,6 @@
 
     <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-storage-compat.js"></script>
 
@@ -707,7 +686,6 @@
 
         // Initialize Firebase
         const app = firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
         const database = firebase.database();
         const storage = firebase.storage();
 
@@ -737,14 +715,9 @@
             element.classList.add('selected');
         }
 
-        function generateSecurePassword() {
-            const length = 12;
-            const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%";
-            let password = "";
-            for (let i = 0; i < length; i++) {
-                password += charset.charAt(Math.floor(Math.random() * charset.length));
-            }
-            return password;
+        // Generate a unique ID for the submission
+        function generateSubmissionId() {
+            return 'submission_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
         }
 
         // Form Submission
@@ -755,9 +728,9 @@
             const formMessage = document.getElementById('formMessage');
             
             try {
-                // Disable button
+                // Disable button and show loading
                 submitBtn.disabled = true;
-                submitBtn.textContent = 'Creating Account...';
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
                 
                 // Get form values
                 const fullName = document.getElementById('fullName').value.trim();
@@ -767,21 +740,21 @@
                 const category = document.getElementById('category').value;
                 const skills = document.getElementById('skills').value.trim();
                 const experience = document.getElementById('experience').value;
-                const rate = parseInt(document.getElementById('rate').value);
+                const rate = document.getElementById('rate').value;
                 const availability = document.getElementById('availability').value;
                 
                 // Get selected preference
                 const selectedPreference = document.querySelector('.preference-card.selected');
                 const projectType = selectedPreference ? 
-                    selectedPreference.querySelector('h4').textContent.toLowerCase().replace('-', '_') : 
-                    'project_based';
+                    selectedPreference.querySelector('h4').textContent : 
+                    'Not specified';
                 
                 // Get files
                 const cvFile = document.getElementById('cv').files[0];
                 const idFile = document.getElementById('id').files[0];
                 const academicFiles = document.getElementById('academic').files;
                 
-                // Validate all fields
+                // Validate all required fields
                 if (!fullName || !email || !phone || !location || !category || !skills || !experience || !rate || !availability) {
                     throw new Error('Please fill in all required fields');
                 }
@@ -790,13 +763,12 @@
                     throw new Error('Please upload all required documents');
                 }
                 
-                // Create user account
-                const tempPassword = generateSecurePassword();
-                const userCredential = await auth.createUserWithEmailAndPassword(email, tempPassword);
-                const user = userCredential.user;
+                // Show uploading message
+                formMessage.className = 'form-message info';
+                formMessage.textContent = 'Uploading documents...';
                 
-                // Send password reset email
-                await auth.sendPasswordResetEmail(email);
+                // Generate a unique ID for this submission
+                const submissionId = generateSubmissionId();
                 
                 // Upload files to Storage
                 const fileUrls = {
@@ -807,14 +779,14 @@
                 
                 // Upload CV
                 const cvExtension = cvFile.name.split('.').pop();
-                const cvPath = `users/${user.uid}/cv.${cvExtension}`;
+                const cvPath = `submissions/${submissionId}/cv.${cvExtension}`;
                 const cvRef = storage.ref(cvPath);
                 await cvRef.put(cvFile);
                 fileUrls.cv = await cvRef.getDownloadURL();
                 
                 // Upload ID
                 const idExtension = idFile.name.split('.').pop();
-                const idPath = `users/${user.uid}/id.${idExtension}`;
+                const idPath = `submissions/${submissionId}/id.${idExtension}`;
                 const idRef = storage.ref(idPath);
                 await idRef.put(idFile);
                 fileUrls.id = await idRef.getDownloadURL();
@@ -823,91 +795,72 @@
                 for (let i = 0; i < academicFiles.length; i++) {
                     const file = academicFiles[i];
                     const ext = file.name.split('.').pop();
-                    const certPath = `users/${user.uid}/certificate_${i}.${ext}`;
+                    const certPath = `submissions/${submissionId}/certificate_${i}.${ext}`;
                     const certRef = storage.ref(certPath);
                     await certRef.put(file);
                     const url = await certRef.getDownloadURL();
                     fileUrls.certificates.push(url);
                 }
                 
-                // Save user data to Realtime Database
-                const userData = {
+                // Show saving message
+                formMessage.textContent = 'Saving your information...';
+                
+                // Save submission data to Realtime Database
+                const submissionData = {
+                    id: submissionId,
                     personal: {
-                        full_name: fullName,
-                        email_address: email,
-                        phone_number: phone,
-                        city_location: location,
-                        joined_timestamp: firebase.database.ServerValue.TIMESTAMP
+                        fullName: fullName,
+                        email: email,
+                        phone: phone,
+                        location: location
                     },
                     professional: {
-                        main_category: category,
-                        skill_set: skills,
-                        experience_level: experience,
-                        rate_per_hour: rate,
-                        hours_per_week: availability
+                        category: category,
+                        skills: skills,
+                        experience: experience,
+                        hourlyRate: rate,
+                        availability: availability,
+                        preferredProjectType: projectType
                     },
                     files: {
-                        cv_file_url: fileUrls.cv,
-                        id_file_url: fileUrls.id,
-                        certificates_urls: fileUrls.certificates.join(','),
-                        verification_status: false
+                        cvUrl: fileUrls.cv,
+                        idUrl: fileUrls.id,
+                        certificatesUrls: fileUrls.certificates
                     },
-                    settings: {
-                        preferred_project_type: projectType,
-                        work_mode: 'remote'
-                    },
-                    account_state: 'pending_verification',
-                    system_data: {
-                        signup_source: 'web',
-                        visitor_ip: 'client_ip',
-                        browser_info: navigator.userAgent.substring(0, 100)
+                    metadata: {
+                        submittedAt: firebase.database.ServerValue.TIMESTAMP,
+                        status: 'pending_review',
+                        source: 'web_form'
                     }
                 };
                 
-                await database.ref('users/' + user.uid).set(userData);
-                
-                // Add to verification queue
-                await database.ref('verification_items/' + user.uid).set({
-                    request_time: firebase.database.ServerValue.TIMESTAMP,
-                    document_list: 'cv_id_academic',
-                    current_status: 'pending'
-                });
-                
-                // Update category count
-                await database.ref('work_categories/' + category + '/freelancer_list/' + user.uid).set(true);
-                
-                // Get current member count and increment
-                const categoryRef = database.ref('work_categories/' + category + '/member_count');
-                await categoryRef.transaction(function(currentCount) {
-                    return (currentCount || 0) + 1;
-                });
-                
-                // Update site statistics
-                const statsRef = database.ref('site_statistics');
-                await statsRef.transaction(function(currentStats) {
-                    if (currentStats) {
-                        currentStats.total_members = (currentStats.total_members || 0) + 1;
-                        currentStats.awaiting_review = (currentStats.awaiting_review || 0) + 1;
-                        currentStats.last_update_time = firebase.database.ServerValue.TIMESTAMP;
-                    }
-                    return currentStats;
-                });
+                await database.ref('submissions/' + submissionId).set(submissionData);
                 
                 // Success message
                 formMessage.className = 'form-message success';
-                formMessage.textContent = '✓ Account created successfully! Please check your email to set your password. Redirecting...';
+                formMessage.innerHTML = '<i class="fas fa-check-circle"></i> Application submitted successfully! We\'ll review your documents and contact you soon.';
                 
-                // Redirect after 3 seconds
-                setTimeout(() => {
-                    window.location.href = 'index.html';
-                }, 3000);
+                // Reset form
+                document.getElementById('registrationForm').reset();
+                document.getElementById('cv-name').textContent = 'No file chosen';
+                document.getElementById('id-name').textContent = 'No file chosen';
+                document.getElementById('academic-name').textContent = 'No files chosen';
+                
+                // Remove selected class from preference cards
+                document.querySelectorAll('.preference-card').forEach(card => {
+                    card.classList.remove('selected');
+                });
+                
+                // Re-enable button but change text
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit Application';
                 
             } catch (error) {
-                console.error('Registration error:', error);
+                console.error('Submission error:', error);
                 formMessage.className = 'form-message error';
-                formMessage.textContent = 'Error: ' + error.message;
+                formMessage.innerHTML = '<i class="fas fa-exclamation-circle"></i> Error: ' + error.message;
                 submitBtn.disabled = false;
-                submitBtn.textContent = 'Create Account';
+                submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit Application';
             }
         });
     </script>
